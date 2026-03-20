@@ -112,7 +112,7 @@
             </div>
             @endforeach
         </div>
-        @endforelse
+        @endif
 
         {{-- Pagination --}}
         <div class="mt-8">
@@ -157,3 +157,29 @@
             @foreach(\App\Models\User::withCount('posts')->where('role', 'auteur')->orWhere('role', 'admin')->orderByDesc('posts_count')->take(3)->get() as $auteur)
             <div class="flex items-center gap-3 py-2 border-b border-gray-50">
                 <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-green-400 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0">
+                    {{ strtoupper(substr($auteur->name, 0, 1)) }}
+                </div>
+                <div>
+                    <p class="font-semibold text-gray-800 text-sm">{{ $auteur->name }}</p>
+                    <p class="text-gray-400 text-xs">{{ $auteur->posts_count }} article(s)</p>
+                </div>
+            </div>
+            @endforeach
+            <a href="#" class="block text-center text-blue-500 text-sm mt-4 hover:underline">Voir tous les auteurs</a>
+        </div>
+
+        {{-- Newsletter --}}
+        <div class="bg-gradient-to-br from-blue-500 to-green-500 rounded-xl p-6">
+            <h3 class="font-bold text-white mb-2">Newsletter</h3>
+            <p class="text-white/80 text-sm mb-4">Recevez le meilleur de BlogHub directement dans votre boite mail chaque lundi matin.</p>
+            <input type="email" placeholder="votre@email.com"
+                class="w-full px-3 py-2 rounded-lg text-gray-700 text-sm focus:outline-none mb-3">
+            <button class="w-full bg-white text-blue-600 py-2 rounded-lg font-semibold text-sm hover:bg-gray-100">
+                S'abonner
+            </button>
+        </div>
+
+    </div>
+</div>
+
+@endsection
