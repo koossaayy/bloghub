@@ -18,55 +18,77 @@
     {{-- Catégorie & Tags --}}
     <div class="flex gap-2 mb-4">
         <span class="bg-blue-100 text-blue-600 text-xs px-3 py-1 rounded-full uppercase font-semibold">
-            {{ $post->category->nom ?? 'Sans catégorie' }}
+            {{ strtoupper($post->category->nom ?? 'Sans catégorie') }}
+            @if($post->tags->count() > 0)
+                &amp; {{ strtoupper($post->tags->first()->nom) }}
+            @endif
         </span>
     </div>
 
     {{-- Titre --}}
-    <h1 class="text-4xl font-bold text-gray-800 mb-4">{{ $post->titre }}</h1>
+    <h1 class="text-4xl font-bold text-gray-800 mb-6 leading-tight">{{ $post->titre }}</h1>
 
-    {{-- Auteur + Like --}}
+    {{-- Auteur + Like + Partage --}}
     <div class="flex justify-between items-center mb-8">
         <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-gray-600 font-bold">
+            <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-green-400 rounded-full flex items-center justify-center text-white font-bold">
                 {{ strtoupper(substr($post->user->name, 0, 1)) }}
             </div>
             <div>
                 <p class="font-semibold text-gray-800">{{ $post->user->name }}</p>
-                <p class="text-gray-400 text-sm">Publié le {{ $post->created_at->format('d F Y') }}</p>
+                <p class="text-gray-400 text-sm">
+                    Publié le {{ $post->created_at->format('d F Y') }} •
+                    {{ ceil(str_word_count(strip_tags($post->contenu)) / 200) }} min de lecture
+                </p>
             </div>
         </div>
         <div class="flex items-center gap-3">
             <form method="POST" action="{{ route('posts.like', $post->id) }}">
                 @csrf
-                <button class="flex items-center gap-2 text-gray-500 hover:text-red-500">
-                    ❤️ <span>{{ $post->likes->count() }}</span>
+                <button class="flex items-center gap-2 text-gray-500 hover:text-red-500 transition-colors">
+                    ❤️ <span class="font-semibold">{{ $post->likes->count() }}</span>
                 </button>
             </form>
+            <button class="text-gray-400 hover:text-blue-500 transition-colors text-xl">↗</button>
         </div>
     </div>
 
     {{-- Image --}}
     @if($post->image)
-        <img src="{{ Str::startsWith($post->image, 'http') ? $post->image : Storage::url($post->image) }}" class="w-32 h-24 object-cover rounded-lg">
+        <img src="{{ Str::startsWith($post->image, 'http') ? $post->image : Storage::url($post->image) }}"
+            class="w-full h-80 object-cover rounded-2xl mb-8">
     @endif
 
     {{-- Contenu --}}
-    <div class="prose max-w-none text-gray-700 leading-relaxed mb-8">
-        {!! nl2br(e($post->contenu)) !!}
+    <div class="text-gray-700 leading-relaxed mb-8 text-lg">
+        @php
+            $contenu = $post->contenu;
+            // Transformer le markdown basique en HTML
+            $contenu = preg_replace('/^# (.+)$/m', '<h1 class="text-3xl font-bold text-gray-800 mt-8 mb-4">$1</h1>', $contenu);
+            $contenu = preg_replace('/^## (.+)$/m', '<h2 class="text-2xl font-bold text-gray-800 mt-6 mb-3">$1</h2>', $contenu);
+            $contenu = preg_replace('/^### (.+)$/m', '<h3 class="text-xl font-bold text-gray-800 mt-4 mb-2">$1</h3>', $contenu);
+            $contenu = preg_replace('/^\> (.+)$/m', '<blockquote class="border-l-4 border-gray-300 pl-4 italic text-gray-600 my-4">$1</blockquote>', $contenu);
+            $contenu = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $contenu);
+            $contenu = preg_replace('/\*(.+?)\*/', '<em>$1</em>', $contenu);
+            $contenu = preg_replace('/^- (.+)$/m', '<li class="ml-4 list-disc">$1</li>', $contenu);
+            $contenu = nl2br(e($contenu));
+            // Après le nl2br/e, on doit re-autoriser nos balises HTML
+            $contenu = html_entity_decode($contenu, ENT_QUOTES, 'UTF-8');
+        @endphp
+        {!! $contenu !!}
     </div>
 
     {{-- Tags --}}
     <div class="flex flex-wrap gap-2 mb-12">
         @foreach($post->tags as $tag)
             <a href="{{ route('tags.show', $tag->slug) }}"
-                class="bg-gray-100 text-gray-600 text-sm px-3 py-1 rounded-full hover:bg-blue-100 hover:text-blue-600">
+                class="bg-gray-100 text-gray-600 text-sm px-3 py-1 rounded-full hover:bg-blue-100 hover:text-blue-600 transition-colors">
                 #{{ $tag->nom }}
             </a>
         @endforeach
     </div>
 
-    {{-- Commentaires --}}
+    {{-- Section Commentaires --}}
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
         <h2 class="text-2xl font-bold text-gray-800 mb-8">
             La Conversation ({{ $post->comments->where('approuve', true)->count() }})
@@ -77,8 +99,14 @@
             <h3 class="font-semibold text-gray-700 mb-4">Laissez votre avis</h3>
 
             @if(session('success'))
-                <div class="bg-green-100 text-green-600 px-4 py-3 rounded-lg mb-4">
+                <div class="bg-green-100 text-green-600 px-4 py-3 rounded-lg mb-4 text-sm">
                     {{ session('success') }}
+                </div>
+            @endif
+
+            @if($errors->any())
+                <div class="bg-red-100 text-red-600 px-4 py-3 rounded-lg mb-4 text-sm">
+                    {{ $errors->first() }}
                 </div>
             @endif
 
@@ -89,47 +117,50 @@
                         <label class="block text-xs font-semibold text-gray-500 uppercase mb-2">Nom complet</label>
                         <input type="text" name="nom" placeholder="Ex: Jean Dupont"
                             value="{{ old('nom', auth()->user()->name ?? '') }}"
-                            class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                            class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm">
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-gray-500 uppercase mb-2">Email</label>
                         <input type="email" name="email" placeholder="nom@exemple.com"
                             value="{{ old('email', auth()->user()->email ?? '') }}"
-                            class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                            class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm">
                     </div>
                 </div>
                 <div class="mb-4">
                     <label class="block text-xs font-semibold text-gray-500 uppercase mb-2">Votre message</label>
-                    <textarea name="contenu" rows="4" placeholder="Que pensez-vous de cet article ?"
-                        class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">{{ old('contenu') }}</textarea>
+                    <textarea name="contenu" rows="4"
+                        placeholder="Que pensez-vous de cet article ?"
+                        class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm resize-none">{{ old('contenu') }}</textarea>
                 </div>
                 <button type="submit"
-                    class="bg-gradient-to-r from-blue-500 to-green-500 text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90">
+                    class="bg-gradient-to-r from-blue-500 to-green-500 text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 text-sm">
                     Publier mon commentaire
                 </button>
             </form>
         </div>
 
         {{-- Liste commentaires --}}
-        @foreach($post->comments->where('approuve', true) as $comment)
-        <div class="flex gap-4 mb-6 pb-6 border-b border-gray-100">
-            <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-gray-600 font-bold shrink-0">
+        @forelse($post->comments->where('approuve', true) as $comment)
+        <div class="flex gap-4 mb-6 pb-6 border-b border-gray-100 last:border-0">
+            <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-green-400 rounded-full flex items-center justify-center text-white font-bold shrink-0 text-sm">
                 {{ strtoupper(substr($comment->nom, 0, 1)) }}
             </div>
             <div class="flex-1">
                 <div class="flex justify-between items-center mb-1">
                     <div class="flex items-center gap-2">
-                        <p class="font-semibold text-gray-800">{{ $comment->nom }}</p>
+                        <p class="font-semibold text-gray-800 text-sm">{{ $comment->nom }}</p>
                         @if($comment->user_id === $post->user_id)
-                            <span class="bg-blue-100 text-blue-600 text-xs px-2 py-0.5 rounded-full">AUTEUR</span>
+                            <span class="bg-blue-100 text-blue-600 text-xs px-2 py-0.5 rounded-full font-semibold">AUTEUR</span>
                         @endif
                     </div>
-                    <p class="text-gray-400 text-sm">{{ $comment->created_at->diffForHumans() }}</p>
+                    <p class="text-gray-400 text-xs">{{ $comment->created_at->diffForHumans() }}</p>
                 </div>
-                <p class="text-gray-600">{{ $comment->contenu }}</p>
+                <p class="text-gray-600 text-sm leading-relaxed">{{ $comment->contenu }}</p>
             </div>
         </div>
-        @endforeach
+        @empty
+        <p class="text-gray-400 text-center py-8">Soyez le premier à commenter !</p>
+        @endforelse
 
     </div>
 </div>

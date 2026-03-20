@@ -9,14 +9,22 @@
     {{-- Sidebar --}}
     <div class="w-56 shrink-0">
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-            <p class="text-xs text-gray-400 uppercase font-semibold mb-1">Espace Auteur</p>
-            <p class="text-sm text-gray-500 mb-6">Gérez vos publications</p>
+            {{-- Avatar --}}
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-green-400 rounded-full flex items-center justify-center text-white font-bold">
+                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                </div>
+                <div>
+                    <p class="text-xs text-gray-400 uppercase font-semibold">Espace Auteur</p>
+                    <p class="text-sm text-gray-500">Gérez vos publications</p>
+                </div>
+            </div>
             <nav class="flex flex-col gap-2">
                 <a href="{{ route('dashboard') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50">
                     📊 Tableau de bord
                 </a>
-                <a href="{{ route('dashboard') }}"
+                <a href="{{ route('posts.mes') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50">
                     📄 Mes Articles
                 </a>
@@ -46,7 +54,8 @@
             <div>
                 <p class="text-sm text-gray-400">
                     <a href="{{ route('dashboard') }}" class="hover:text-blue-500">Articles</a>
-                    <span class="mx-2">›</span> Nouvel Article
+                    <span class="mx-2">›</span>
+                    <span class="text-blue-500">Nouvel Article</span>
                 </p>
                 <h1 class="text-2xl font-bold text-gray-800">Éditeur de Publication</h1>
             </div>
@@ -79,42 +88,64 @@
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-4">
 
                         <label class="block text-xs text-gray-400 uppercase font-semibold mb-3">Titre de l'article</label>
-                        <input type="text" name="titre" id="titre" placeholder="Entrez un titre captivant..."
+                        <input type="text" name="titre" id="titre"
+                            placeholder="Entrez un titre captivant..."
                             value="{{ old('titre') }}"
                             class="w-full text-2xl font-bold text-gray-700 placeholder-gray-300 border-0 focus:outline-none focus:ring-0 mb-4">
                         <hr class="border-gray-100 mb-4">
 
                         {{-- Toolbar --}}
-                        <div class="flex gap-2 mb-4 pb-4 border-b border-gray-100">
+                        <div class="flex gap-2 mb-4 pb-4 border-b border-gray-100 flex-wrap">
                             <button type="button" onclick="format('bold')"
+                                title="Gras"
                                 class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded font-bold text-gray-600 hover:bg-blue-100 hover:text-blue-600">B</button>
                             <button type="button" onclick="format('italic')"
+                                title="Italique"
                                 class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded italic text-gray-600 hover:bg-blue-100 hover:text-blue-600">I</button>
                             <button type="button" onclick="insertTag('h1')"
+                                title="Titre H1"
                                 class="px-2 h-8 flex items-center justify-center bg-gray-100 rounded text-gray-600 hover:bg-blue-100 hover:text-blue-600 font-bold text-sm">H1</button>
                             <button type="button" onclick="insertTag('h2')"
+                                title="Titre H2"
                                 class="px-2 h-8 flex items-center justify-center bg-gray-100 rounded text-gray-600 hover:bg-blue-100 hover:text-blue-600 font-bold text-sm">H2</button>
                             <button type="button" onclick="insertTag('ul')"
-                                class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded text-gray-600 hover:bg-blue-100 hover:text-blue-600">≡</button>
+                                title="Liste"
+                                class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded text-gray-600 hover:bg-blue-100 hover:text-blue-600 text-lg">≡</button>
                             <button type="button" onclick="insertQuote()"
-                                class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded text-gray-600 hover:bg-blue-100 hover:text-blue-600">"</button>
+                                title="Citation"
+                                class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded text-gray-600 hover:bg-blue-100 hover:text-blue-600 font-serif text-lg">"</button>
+                            <button type="button" onclick="insertLink()"
+                                title="Lien"
+                                class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded text-gray-600 hover:bg-blue-100 hover:text-blue-600">🔗</button>
+                            <button type="button" onclick="insertImage()"
+                                title="Image"
+                                class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded text-gray-600 hover:bg-blue-100 hover:text-blue-600">🖼️</button>
+                            <div class="flex-1"></div>
+                            <button type="button" onclick="undo()"
+                                title="Annuler"
+                                class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded text-gray-600 hover:bg-blue-100 hover:text-blue-600">↩</button>
+                            <button type="button" onclick="redo()"
+                                title="Rétablir"
+                                class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded text-gray-600 hover:bg-blue-100 hover:text-blue-600">↪</button>
                         </div>
 
                         <textarea name="contenu" id="contenu" rows="16"
                             placeholder="Commencez à raconter votre histoire..."
-                            class="w-full border-0 focus:outline-none focus:ring-0 text-gray-700 resize-none">{{ old('contenu') }}</textarea>
+                            class="w-full border-0 focus:outline-none focus:ring-0 text-gray-700 resize-none leading-relaxed">{{ old('contenu') }}</textarea>
                     </div>
                 </div>
 
                 {{-- Panneau latéral --}}
                 <div class="w-64 shrink-0">
 
-                    {{-- Statut toggle --}}
+                    {{-- Statut + Catégorie + Tags --}}
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-4">
-                        <div class="flex justify-between items-center mb-4">
+
+                        {{-- Statut toggle --}}
+                        <div class="flex justify-between items-center mb-5">
                             <label class="text-xs text-gray-400 uppercase font-semibold">Statut</label>
-                            <div class="flex items-center gap-2" onclick="toggleStatut()" style="cursor:pointer">
-                                <span class="text-sm text-gray-500" id="label-brouillon">Brouillon</span>
+                            <div class="flex items-center gap-2 cursor-pointer" onclick="toggleStatut()">
+                                <span class="text-sm" id="label-brouillon">Brouillon</span>
                                 <div id="toggle-btn" class="w-10 h-5 bg-gray-300 rounded-full relative transition-colors duration-200">
                                     <div id="toggle-circle" class="w-4 h-4 bg-white rounded-full absolute left-0.5 top-0.5 transition-all duration-200 shadow"></div>
                                 </div>
@@ -125,7 +156,7 @@
                         {{-- Catégorie --}}
                         <label class="block text-xs text-gray-400 uppercase font-semibold mb-2">Catégorie</label>
                         <select name="category_id"
-                            class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4">
+                            class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 mb-5">
                             <option value="">Choisir une catégorie</option>
                             @foreach($categories as $cat)
                                 <option value="{{ $cat->id }}" {{ old('category_id') == $cat->id ? 'selected' : '' }}>
@@ -136,30 +167,43 @@
 
                         {{-- Tags --}}
                         <label class="block text-xs text-gray-400 uppercase font-semibold mb-2">Tags</label>
-                        <div class="flex flex-wrap gap-2" id="tags-container">
+                        <div class="flex flex-wrap gap-2">
                             @foreach($tags as $tag)
                                 <label id="tag-label-{{ $tag->id }}"
                                     class="flex items-center gap-1 bg-gray-100 px-3 py-1 rounded-full cursor-pointer hover:bg-blue-100 transition-colors">
                                     <input type="checkbox" name="tags[]" value="{{ $tag->id }}"
-                                        class="hidden tag-checkbox"
+                                        class="hidden"
                                         onchange="updateTagStyle({{ $tag->id }})"
                                         {{ in_array($tag->id, old('tags', [])) ? 'checked' : '' }}>
                                     <span class="text-sm text-gray-600" id="tag-text-{{ $tag->id }}">{{ $tag->nom }}</span>
+                                    <span class="text-gray-400 text-xs" id="tag-x-{{ $tag->id }}">+</span>
                                 </label>
                             @endforeach
                         </div>
                     </div>
 
                     {{-- Image de couverture --}}
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-4">
                         <label class="block text-xs text-gray-400 uppercase font-semibold mb-3">Image de couverture</label>
-                        <label id="upload-label" class="border-2 border-dashed border-gray-200 rounded-xl p-8 flex flex-col items-center justify-center cursor-pointer hover:border-blue-400 transition-colors">
+                        <label class="border-2 border-dashed border-gray-200 rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer hover:border-blue-400 transition-colors">
                             <span class="text-3xl mb-2">☁️</span>
                             <span class="text-gray-600 font-semibold text-sm" id="upload-text">Cliquer pour uploader</span>
                             <span class="text-gray-400 text-xs mt-1">PNG, JPG ou WEBP (Max. 5MB)</span>
                             <input type="file" name="image" id="image-input" class="hidden" accept="image/*" onchange="previewImage(event)">
                         </label>
                         <img id="image-preview" src="" class="hidden w-full h-32 object-cover rounded-lg mt-3">
+                    </div>
+
+                    {{-- Aperçu Google --}}
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-blue-500">🔵</span>
+                            <p class="text-sm font-semibold text-gray-700">Aperçu Google</p>
+                        </div>
+                        <p class="text-blue-600 font-semibold text-sm mb-1" id="seo-titre">Mon nouvel article passionnan...</p>
+                        <p class="text-green-600 text-xs mb-1">bloghub.com/articles/mon-nouvel-article...</p>
+                        <p class="text-gray-500 text-xs">Le résumé de votre article apparaîtra ici pour attirer les lecteurs depuis les moteurs de...</p>
+                        <button type="button" class="text-blue-500 text-xs mt-2 hover:underline">Modifier les métadonnées SEO</button>
                     </div>
 
                 </div>
@@ -204,6 +248,12 @@
         document.getElementById('form-article').submit();
     }
 
+    // Aperçu SEO en temps réel
+    document.getElementById('titre').addEventListener('input', function() {
+        const titre = this.value || 'Mon nouvel article passionnan...';
+        document.getElementById('seo-titre').textContent = titre.substring(0, 50) + (titre.length > 50 ? '...' : '');
+    });
+
     // Toolbar
     function format(cmd) {
         const textarea = document.getElementById('contenu');
@@ -212,31 +262,69 @@
         const selected = textarea.value.substring(start, end);
         let result = '';
 
-        if (cmd === 'bold') result = `**${selected}**`;
-        if (cmd === 'italic') result = `*${selected}*`;
+        if (cmd === 'bold') result = `**${selected || 'texte en gras'}**`;
+        if (cmd === 'italic') result = `*${selected || 'texte en italique'}*`;
 
         textarea.value = textarea.value.substring(0, start) + result + textarea.value.substring(end);
+        textarea.focus();
     }
 
     function insertTag(tag) {
         const textarea = document.getElementById('contenu');
         const start = textarea.selectionStart;
-        const selected = textarea.value.substring(start, textarea.selectionEnd);
+        const selected = textarea.value.substring(start, textarea.selectionEnd) || 'Titre';
         let result = '';
 
         if (tag === 'h1') result = `\n# ${selected}\n`;
         if (tag === 'h2') result = `\n## ${selected}\n`;
-        if (tag === 'ul') result = `\n- ${selected}\n`;
+        if (tag === 'ul') result = `\n- ${selected}\n- Element 2\n- Element 3\n`;
 
         textarea.value = textarea.value.substring(0, start) + result + textarea.value.substring(textarea.selectionEnd);
+        textarea.focus();
     }
 
     function insertQuote() {
         const textarea = document.getElementById('contenu');
         const start = textarea.selectionStart;
-        const selected = textarea.value.substring(start, textarea.selectionEnd);
+        const selected = textarea.value.substring(start, textarea.selectionEnd) || 'Votre citation ici';
         const result = `\n> ${selected}\n`;
         textarea.value = textarea.value.substring(0, start) + result + textarea.value.substring(textarea.selectionEnd);
+        textarea.focus();
+    }
+
+    function insertLink() {
+        const url = prompt('Entrez l\'URL du lien :');
+        if (url) {
+            const textarea = document.getElementById('contenu');
+            const start = textarea.selectionStart;
+            const selected = textarea.value.substring(start, textarea.selectionEnd) || 'texte du lien';
+            const result = `[${selected}](${url})`;
+            textarea.value = textarea.value.substring(0, start) + result + textarea.value.substring(textarea.selectionEnd);
+            textarea.focus();
+        }
+    }
+
+    function insertImage() {
+        const url = prompt('Entrez l\'URL de l\'image :');
+        if (url) {
+            const textarea = document.getElementById('contenu');
+            const start = textarea.selectionStart;
+            const result = `\n![Image](${url})\n`;
+            textarea.value = textarea.value.substring(0, start) + result + textarea.value.substring(textarea.selectionEnd);
+            textarea.focus();
+        }
+    }
+
+    let history = [];
+    let historyIndex = -1;
+
+    function undo() {
+        const textarea = document.getElementById('contenu');
+        document.execCommand('undo');
+    }
+
+    function redo() {
+        document.execCommand('redo');
     }
 
     // Tags style
@@ -244,17 +332,20 @@
         const checkbox = document.querySelector(`#tag-label-${id} input`);
         const label = document.getElementById(`tag-label-${id}`);
         const text = document.getElementById(`tag-text-${id}`);
+        const x = document.getElementById(`tag-x-${id}`);
 
         if (checkbox.checked) {
             label.classList.remove('bg-gray-100');
             label.classList.add('bg-blue-100');
             text.classList.remove('text-gray-600');
             text.classList.add('text-blue-600', 'font-semibold');
+            x.textContent = '×';
         } else {
             label.classList.add('bg-gray-100');
             label.classList.remove('bg-blue-100');
             text.classList.add('text-gray-600');
             text.classList.remove('text-blue-600', 'font-semibold');
+            x.textContent = '+';
         }
     }
 
@@ -272,6 +363,14 @@
             reader.readAsDataURL(file);
         }
     }
+
+    // Init tags déjà cochés
+    document.querySelectorAll('.tag-checkbox').forEach(cb => {
+        if (cb.checked) {
+            const id = cb.value;
+            updateTagStyle(id);
+        }
+    });
 </script>
 
 @endsection

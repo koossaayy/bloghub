@@ -6,43 +6,49 @@
     <title>BlogHub - Connexion</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50 min-h-screen">
 
-<nav class="bg-white px-8 py-4 flex justify-between items-center">
+<nav class="bg-white px-8 py-4 flex justify-between items-center shadow-sm">
     <a href="{{ route('accueil') }}" class="text-2xl font-bold italic text-gray-800">BlogHub</a>
     <a href="{{ route('accueil') }}" class="text-gray-600 hover:text-blue-600">Accueil</a>
 </nav>
 
-<div class="min-h-screen flex items-center justify-center py-12 px-4">
-    <div class="bg-white rounded-2xl shadow-lg overflow-hidden flex w-full max-w-4xl">
+<div class="flex items-center justify-center py-16 px-4">
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden flex w-full max-w-3xl">
 
         {{-- Partie gauche gradient --}}
-        <div class="w-1/2 bg-gradient-to-br from-blue-400 to-green-400 p-12 flex flex-col justify-between">
+        <div class="w-5/12 bg-gradient-to-br from-blue-400 to-green-400 p-10 flex flex-col justify-between">
             <div>
-                <h2 class="text-4xl font-bold text-white leading-tight mb-6">
+                <h2 class="text-3xl font-bold text-white leading-tight mb-4">
                     Redéfinissez votre expérience de lecture.
                 </h2>
-                <p class="text-white/80 text-lg">
+                <p class="text-white/80">
                     Rejoignez une communauté d'esprits curieux et d'écrivains passionnés sur la plateforme éditoriale la plus raffinée du web.
                 </p>
             </div>
-            <div class="bg-white/20 rounded-xl p-4 flex items-center gap-3">
-                <div class="w-10 h-10 bg-white/40 rounded-full"></div>
+            <div class="bg-white/20 rounded-xl p-4 flex items-center gap-3 mt-8">
+                <img src="https://i.ibb.co/Kzp3Yhsc/CALEBWhats-App-Image-2026-03-20-at-00-49-09.jpg"
+                     class="w-10 h-10 rounded-full object-cover border-2 border-white/50 shrink-0"
+                     alt="Dassi Caleb">
                 <div>
                     <p class="text-white font-medium text-sm">"Une interface qui laisse enfin respirer les mots."</p>
-                    <p class="text-white/70 text-xs">— Clara, Auteure sur BlogHub</p>
+                    <p class="text-white/70 text-xs mt-1">— Dassi Caleb, Auteur sur BlogHub</p>
                 </div>
             </div>
         </div>
 
         {{-- Partie droite formulaire --}}
-        <div class="w-1/2 p-12">
-            <h2 class="text-3xl font-bold text-gray-800 mb-2">Bon retour parmi nous</h2>
-            <p class="text-gray-500 mb-8">Entrez vos identifiants pour accéder à votre espace.</p>
+        <div class="w-7/12 p-10">
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">Bon retour parmi nous</h2>
+            <p class="text-gray-500 mb-6 text-sm">Entrez vos identifiants pour accéder à votre espace.</p>
 
             @if($errors->any())
-                <div class="bg-red-100 text-red-600 px-4 py-3 rounded-lg mb-6">
-                    {{ $errors->first() }}
+                <div class="bg-red-100 text-red-600 px-4 py-3 rounded-lg mb-4 text-sm">
+                    @if($errors->first() === 'auth.failed')
+                        Identifiants incorrects. Vérifiez votre email et mot de passe.
+                    @else
+                        {{ $errors->first() }}
+                    @endif
                 </div>
             @endif
 
@@ -52,15 +58,15 @@
                     <label class="block text-xs font-semibold text-gray-500 uppercase mb-2">Email</label>
                     <input type="email" name="email" placeholder="nom@exemple.fr"
                         value="{{ old('email') }}"
-                        class="w-full px-4 py-3 bg-gray-100 rounded-lg border-0 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                        class="w-full px-4 py-3 bg-gray-100 rounded-lg border-0 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm">
                 </div>
                 <div class="mb-6">
                     <div class="flex justify-between items-center mb-2">
                         <label class="text-xs font-semibold text-gray-500 uppercase">Mot de passe</label>
-                        <a href="#" class="text-blue-500 text-sm hover:underline">Mot de passe oublié ?</a>
+                        <a href="#" class="text-blue-500 text-xs hover:underline">Mot de passe oublié ?</a>
                     </div>
                     <input type="password" name="password" placeholder="••••••••"
-                        class="w-full px-4 py-3 bg-gray-100 rounded-lg border-0 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                        class="w-full px-4 py-3 bg-gray-100 rounded-lg border-0 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm">
                 </div>
                 <button type="submit"
                     class="w-full bg-gradient-to-r from-blue-500 to-green-500 text-white py-3 rounded-lg font-semibold hover:opacity-90">
@@ -68,7 +74,7 @@
                 </button>
             </form>
 
-            <p class="text-center text-gray-500 mt-6">
+            <p class="text-center text-gray-500 mt-6 text-sm">
                 Pas encore de compte ?
                 <a href="{{ route('register') }}" class="text-blue-500 font-semibold hover:underline">Inscription</a>
             </p>
@@ -76,7 +82,6 @@
     </div>
 </div>
 
-{{-- Footer --}}
 <footer class="text-center py-6">
     <p class="text-2xl font-bold italic text-gray-800 mb-3">BlogHub</p>
     <div class="flex justify-center gap-6 text-gray-400 text-sm mb-2">
