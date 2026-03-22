@@ -22,10 +22,10 @@
     </form>
 </div>
 
-<div style="display: flex; gap: 2rem; align-items: flex-start;" class="flex-container">
+<div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start;">
 
     {{-- Articles --}}
-    <div style="flex: 1; min-width: 0;">
+    <div style="flex: 1; min-width: 300px;">
         <div class="flex flex-wrap justify-between items-center mb-6 gap-4">
             <h2 class="text-2xl font-bold text-gray-800">Dernières Publications</h2>
             <div class="flex gap-4 text-sm">
@@ -130,7 +130,21 @@
     </div>
 
     {{-- Sidebar --}}
-    <div style="width: 18rem; flex-shrink: 0;">
+    <div style="width: 18rem; flex-shrink: 0; min-width: 280px;">
+        
+        {{-- Recherche --}}
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
+            <h3 class="font-bold text-gray-800 mb-4">Recherche Avancée</h3>
+            <form method="GET" action="{{ route('accueil') }}" class="flex flex-col gap-3">
+                <input type="text" name="search" placeholder="Mots-clés, auteurs, titres..."
+                    value="{{ request('search') }}"
+                    class="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white text-sm">
+                <button type="submit"
+                    class="w-full bg-gradient-to-r from-blue-500 to-green-500 text-white py-2 rounded-lg font-semibold text-sm hover:opacity-90 transition-colors">
+                    Rechercher
+                </button>
+            </form>
+        </div>  
 
         {{-- Catégories Populaires --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
