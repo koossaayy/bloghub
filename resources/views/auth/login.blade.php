@@ -14,10 +14,10 @@
 </nav>
 
 <div class="flex items-center justify-center py-16 px-4">
-    <div class="bg-white rounded-2xl shadow-lg overflow-hidden flex w-full max-w-3xl">
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col md:flex-row w-full max-w-3xl">
 
         {{-- Partie gauche gradient --}}
-        <div class="w-5/12 bg-gradient-to-br from-blue-400 to-green-400 p-10 flex flex-col justify-between">
+        <div class="w-full md:w-5/12 bg-gradient-to-br from-blue-400 to-green-400 p-8 flex flex-col justify-between">
             <div>
                 <h2 class="text-3xl font-bold text-white leading-tight mb-4">
                     Redéfinissez votre expérience de lecture.
@@ -38,7 +38,7 @@
         </div>
 
         {{-- Partie droite formulaire --}}
-        <div class="w-7/12 p-10">
+        <div class="w-full md:w-7/12 p-8">
             <h2 class="text-2xl font-bold text-gray-800 mb-2">Bon retour parmi nous</h2>
             <p class="text-gray-500 mb-6 text-sm">Entrez vos identifiants pour accéder à votre espace.</p>
 

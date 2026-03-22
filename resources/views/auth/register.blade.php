@@ -14,11 +14,10 @@
 </nav>
 
 <div class="min-h-screen flex items-center justify-center py-12 px-4">
-    <div class="bg-white rounded-2xl shadow-lg overflow-hidden flex w-full max-w-4xl">
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col md:flex-row w-full max-w-3xl">
 
         {{-- Partie gauche gradient --}}
-        <div class="w-1/2 bg-gradient-to-br from-blue-400 to-green-400 p-12 flex flex-col justify-center">
-            <h2 class="text-4xl font-bold text-white leading-tight mb-6">
+<div class="w-full md:w-1/2 bg-gradient-to-br from-blue-400 to-green-400 p-8 flex flex-col justify-center">            <h2 class="text-4xl font-bold text-white leading-tight mb-6">
                 Rejoignez la communauté BlogHub.
             </h2>
             <p class="text-white/80 text-lg">
@@ -27,7 +26,7 @@
         </div>
 
         {{-- Partie droite formulaire --}}
-        <div class="w-1/2 p-12">
+        <div class="w-full md:w-1/2 p-8">
             <h2 class="text-3xl font-bold text-gray-800 mb-2">Créer un compte</h2>
             <p class="text-gray-500 mb-8">Rejoignez-nous en quelques secondes.</p>
 
