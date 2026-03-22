@@ -63,8 +63,10 @@ class PostController extends Controller
 
     $categories = Category::withCount('posts')->get();
     $tags = Tag::withCount('posts')->get();
+    $sort = 'recent';
+    $search = null;
 
-    return view('posts.index', compact('posts', 'categories', 'tags'));
+    return view('posts.index', compact('posts', 'categories', 'tags', 'sort', 'search'));
 }
 
     public function show($slug)
