@@ -12,17 +12,31 @@ use Illuminate\Support\Str;
 class PostController extends Controller
 {
     public function index()
-    {
-        $posts = Post::with(['user', 'category', 'tags'])
-            ->where('statut', 'publie')
-            ->latest()
-            ->paginate(9);
+{
+    $search = request('search');
 
-        $categories = Category::withCount('posts')->get();
-        $tags = Tag::withCount('posts')->get();
+    $query = Post::with(['user', 'category', 'tags', 'likes', 'comments'])
+        ->where('statut', 'publie');
 
-        return view('posts.index', compact('posts', 'categories', 'tags'));
+    if ($search) {
+        $query->where(function($q) use ($search) {
+            $q->where('titre', 'ilike', "%{$search}%")
+              ->orWhere('contenu', 'ilike', "%{$search}%")
+              ->orWhereHas('user', function($q) use ($search) {
+                  $q->where('name', 'ilike', "%{$search}%");
+              })
+              ->orWhereHas('category', function($q) use ($search) {
+                  $q->where('nom', 'ilike', "%{$search}%");
+              });
+        });
     }
+
+    $posts = $query->latest()->paginate(9);
+    $categories = Category::withCount('posts')->get();
+    $tags = Tag::withCount('posts')->get();
+
+    return view('posts.index', compact('posts', 'categories', 'tags', 'search'));
+}
 
     public function show($slug)
     {
@@ -121,22 +135,33 @@ class PostController extends Controller
     }
 
     public function like($id)
-    {
-        $like = Like::where('post_id', $id)
-            ->where('user_id', auth()->id())
-            ->first();
-
-        if ($like) {
-            $like->delete();
-        } else {
-            Like::create([
-                'post_id' => $id,
-                'user_id' => auth()->id(),
-            ]);
-        }
-
-        return back();
+{
+    if (!auth()->check()) {
+        return response()->json(['error' => 'Non connecté'], 401);
     }
+
+    $like = Like::where('post_id', $id)
+        ->where('user_id', auth()->id())
+        ->first();
+
+    if ($like) {
+        $like->delete();
+        $liked = false;
+    } else {
+        Like::create([
+            'post_id' => $id,
+            'user_id' => auth()->id(),
+        ]);
+        $liked = true;
+    }
+
+    $count = Like::where('post_id', $id)->count();
+
+    return response()->json([
+        'liked' => $liked,
+        'count' => $count
+    ]);
+}
 
     public function mesArticles()
     {

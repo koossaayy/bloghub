@@ -4,7 +4,7 @@
 
 @section('contenu')
 
-<div class="max-w-3xl mx-auto">
+<div class="max-w-3xl mx-auto px-4">
 
     {{-- Breadcrumb --}}
     <div class="text-sm text-gray-400 mb-6">
@@ -26,12 +26,12 @@
     </div>
 
     {{-- Titre --}}
-    <h1 class="text-4xl font-bold text-gray-800 mb-6 leading-tight">{{ $post->titre }}</h1>
+    <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6 leading-tight">{{ $post->titre }}</h1>
 
     {{-- Auteur + Like + Partage --}}
-    <div class="flex justify-between items-center mb-8">
+    <div class="flex flex-wrap justify-between items-center mb-8 gap-4">
         <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-green-400 rounded-full flex items-center justify-center text-white font-bold">
+            <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-green-400 rounded-full flex items-center justify-center text-white font-bold shrink-0">
                 {{ strtoupper(substr($post->user->name, 0, 1)) }}
             </div>
             <div>
@@ -43,36 +43,39 @@
             </div>
         </div>
         <div class="flex items-center gap-3">
-            <form method="POST" action="{{ route('posts.like', $post->id) }}">
-                @csrf
-                <button class="flex items-center gap-2 text-gray-500 hover:text-red-500 transition-colors">
-                    ❤️ <span class="font-semibold">{{ $post->likes->count() }}</span>
-                </button>
-            </form>
-            <button class="text-gray-400 hover:text-blue-500 transition-colors text-xl">↗</button>
+            <button id="like-btn" onclick="toggleLike({{ $post->id }})"
+                class="flex items-center gap-2 px-4 py-2 rounded-full border transition-all
+                {{ auth()->check() && $post->likes->contains('user_id', auth()->id())
+                    ? 'bg-red-50 border-red-200 text-red-500'
+                    : 'bg-gray-50 border-gray-200 text-gray-500 hover:bg-red-50 hover:text-red-500' }}">
+                ❤️ <span id="like-count">{{ $post->likes->count() }}</span>
+            </button>
+            <button onclick="partager()"
+                class="text-gray-400 hover:text-blue-500 transition-colors text-xl px-3 py-2 rounded-full border border-gray-200 hover:border-blue-300"
+                title="Partager cet article">
+                ↗
+            </button>
         </div>
     </div>
 
     {{-- Image --}}
     @if($post->image)
         <img src="{{ Str::startsWith($post->image, 'http') ? $post->image : Storage::url($post->image) }}"
-            class="w-full h-80 object-cover rounded-2xl mb-8">
+            class="w-full h-64 md:h-80 object-cover rounded-2xl mb-8">
     @endif
 
     {{-- Contenu --}}
-    <div class="text-gray-700 leading-relaxed mb-8 text-lg">
+    <div class="text-gray-700 leading-relaxed mb-8 text-base md:text-lg">
         @php
             $contenu = $post->contenu;
-            // Transformer le markdown basique en HTML
             $contenu = preg_replace('/^# (.+)$/m', '<h1 class="text-3xl font-bold text-gray-800 mt-8 mb-4">$1</h1>', $contenu);
             $contenu = preg_replace('/^## (.+)$/m', '<h2 class="text-2xl font-bold text-gray-800 mt-6 mb-3">$1</h2>', $contenu);
             $contenu = preg_replace('/^### (.+)$/m', '<h3 class="text-xl font-bold text-gray-800 mt-4 mb-2">$1</h3>', $contenu);
-            $contenu = preg_replace('/^\> (.+)$/m', '<blockquote class="border-l-4 border-gray-300 pl-4 italic text-gray-600 my-4">$1</blockquote>', $contenu);
+            $contenu = preg_replace('/^\> (.+)$/m', '<blockquote class="border-l-4 border-blue-300 pl-4 italic text-gray-600 my-4 bg-blue-50 py-2 rounded-r-lg">$1</blockquote>', $contenu);
             $contenu = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $contenu);
             $contenu = preg_replace('/\*(.+?)\*/', '<em>$1</em>', $contenu);
-            $contenu = preg_replace('/^- (.+)$/m', '<li class="ml-4 list-disc">$1</li>', $contenu);
+            $contenu = preg_replace('/^- (.+)$/m', '<li class="ml-4 list-disc mb-1">$1</li>', $contenu);
             $contenu = nl2br(e($contenu));
-            // Après le nl2br/e, on doit re-autoriser nos balises HTML
             $contenu = html_entity_decode($contenu, ENT_QUOTES, 'UTF-8');
         @endphp
         {!! $contenu !!}
@@ -88,14 +91,44 @@
         @endforeach
     </div>
 
+    {{-- Articles similaires --}}
+    @php
+        $similaires = \App\Models\Post::where('category_id', $post->category_id)
+            ->where('id', '!=', $post->id)
+            ->where('statut', 'publie')
+            ->with(['user', 'category'])
+            ->take(3)
+            ->get();
+    @endphp
+
+    @if($similaires->count() > 0)
+    <div class="mb-12">
+        <h3 class="text-xl font-bold text-gray-800 mb-4">Articles similaires</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            @foreach($similaires as $similaire)
+            <a href="{{ route('posts.show', $similaire->slug) }}"
+                class="bg-white rounded-xl border border-gray-100 p-4 hover:shadow-md transition-shadow">
+                @if($similaire->image)
+                    <img src="{{ Str::startsWith($similaire->image, 'http') ? $similaire->image : Storage::url($similaire->image) }}"
+                        class="w-full h-32 object-cover rounded-lg mb-3">
+                @endif
+                <span class="text-xs text-blue-600 font-semibold uppercase">{{ $similaire->category->nom }}</span>
+                <p class="font-semibold text-gray-800 text-sm mt-1">{{ Str::limit($similaire->titre, 60) }}</p>
+                <p class="text-gray-400 text-xs mt-1">{{ $similaire->user->name }}</p>
+            </a>
+            @endforeach
+        </div>
+    </div>
+    @endif
+
     {{-- Section Commentaires --}}
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
         <h2 class="text-2xl font-bold text-gray-800 mb-8">
             La Conversation ({{ $post->comments->where('approuve', true)->count() }})
         </h2>
 
         {{-- Formulaire commentaire --}}
-        <div class="bg-gray-50 rounded-xl p-6 mb-8">
+        <div class="bg-gray-50 rounded-xl p-5 mb-8">
             <h3 class="font-semibold text-gray-700 mb-4">Laissez votre avis</h3>
 
             @if(session('success'))
@@ -112,7 +145,7 @@
 
             <form method="POST" action="{{ route('comments.store', $post->id) }}">
                 @csrf
-                <div class="grid grid-cols-2 gap-4 mb-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div>
                         <label class="block text-xs font-semibold text-gray-500 uppercase mb-2">Nom complet</label>
                         <input type="text" name="nom" placeholder="Ex: Jean Dupont"
@@ -161,8 +194,57 @@
         @empty
         <p class="text-gray-400 text-center py-8">Soyez le premier à commenter !</p>
         @endforelse
-
     </div>
 </div>
+
+{{-- Scripts --}}
+<script>
+async function toggleLike(postId) {
+    const btn = document.getElementById('like-btn');
+    const count = document.getElementById('like-count');
+
+    try {
+        const response = await fetch(`/posts/${postId}/like`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        });
+
+        if (response.status === 401) {
+            window.location.href = '/login';
+            return;
+        }
+
+        const data = await response.json();
+        count.textContent = data.count;
+
+        if (data.liked) {
+            btn.classList.add('bg-red-50', 'border-red-200', 'text-red-500');
+            btn.classList.remove('bg-gray-50', 'border-gray-200', 'text-gray-500');
+        } else {
+            btn.classList.remove('bg-red-50', 'border-red-200', 'text-red-500');
+            btn.classList.add('bg-gray-50', 'border-gray-200', 'text-gray-500');
+        }
+    } catch (error) {
+        console.error('Erreur like:', error);
+    }
+}
+
+function partager() {
+    if (navigator.share) {
+        navigator.share({
+            title: document.title,
+            url: window.location.href
+        }).catch(console.error);
+    } else {
+        navigator.clipboard.writeText(window.location.href).then(() => {
+            alert('Lien copié dans le presse-papiers !');
+        });
+    }
+}
+</script>
 
 @endsection
