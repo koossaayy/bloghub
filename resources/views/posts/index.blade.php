@@ -131,20 +131,6 @@
 
     {{-- Sidebar --}}
     <div style="width: 18rem; flex-shrink: 0; min-width: 280px;">
-        
-        {{-- Recherche --}}
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
-            <h3 class="font-bold text-gray-800 mb-4">Recherche Avancée</h3>
-            <form method="GET" action="{{ route('accueil') }}" class="flex flex-col gap-3">
-                <input type="text" name="search" placeholder="Mots-clés, auteurs, titres..."
-                    value="{{ request('search') }}"
-                    class="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white text-sm">
-                <button type="submit"
-                    class="w-full bg-gradient-to-r from-blue-500 to-green-500 text-white py-2 rounded-lg font-semibold text-sm hover:opacity-90 transition-colors">
-                    Rechercher
-                </button>
-            </form>
-        </div>  
 
         {{-- Catégories Populaires --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
