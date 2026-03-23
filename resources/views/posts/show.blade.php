@@ -8,9 +8,9 @@
 
     {{-- Breadcrumb --}}
     <div class="text-sm text-gray-400 mb-6">
-        <a href="{{ route('accueil') }}" class="hover:text-blue-500">Accueil</a>
+        <a href="{{ route('accueil') }}" class="hover:text-blue-500">{{ __('Accueil') }}</a>
         <span class="mx-2">›</span>
-        <a href="{{ route('posts.index') }}" class="hover:text-blue-500">Articles</a>
+        <a href="{{ route('posts.index') }}" class="hover:text-blue-500">{{ __('Articles') }}</a>
         <span class="mx-2">›</span>
         <span class="text-gray-600">{{ Str::limit($post->titre, 40) }}</span>
     </div>
@@ -37,8 +37,8 @@
             <div>
                 <p class="font-semibold text-gray-800">{{ $post->user->name }}</p>
                 <p class="text-gray-400 text-sm">
-                    Publié le {{ $post->created_at->format('d F Y') }} •
-                    {{ ceil(str_word_count(strip_tags($post->contenu)) / 200) }} min de lecture
+                    {{ __('Publié le') }} {{ $post->created_at->format('d F Y') }} •
+                    {{ ceil(str_word_count(strip_tags($post->contenu)) / 200) }} {{ __('min de lecture') }}
                 </p>
             </div>
         </div>
@@ -103,7 +103,7 @@
 
     @if($similaires->count() > 0)
     <div class="mb-12">
-        <h3 class="text-xl font-bold text-gray-800 mb-4">Articles similaires</h3>
+        <h3 class="text-xl font-bold text-gray-800 mb-4">{{ __('Articles similaires') }}</h3>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             @foreach($similaires as $similaire)
             <a href="{{ route('posts.show', $similaire->slug) }}"
@@ -124,12 +124,12 @@
     {{-- Section Commentaires --}}
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
         <h2 class="text-2xl font-bold text-gray-800 mb-8">
-            La Conversation ({{ $post->comments->where('approuve', true)->count() }})
+            {{ __('La Conversation (') }}{{ $post->comments->where('approuve', true)->count() }})
         </h2>
 
         {{-- Formulaire commentaire --}}
         <div class="bg-gray-50 rounded-xl p-5 mb-8">
-            <h3 class="font-semibold text-gray-700 mb-4">Laissez votre avis</h3>
+            <h3 class="font-semibold text-gray-700 mb-4">{{ __('Laissez votre avis') }}</h3>
 
             @if(session('success'))
                 <div class="bg-green-100 text-green-600 px-4 py-3 rounded-lg mb-4 text-sm">
@@ -147,27 +147,27 @@
                 @csrf
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-2">Nom complet</label>
+                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-2">{{ __('Nom complet') }}</label>
                         <input type="text" name="nom" placeholder="Ex: Jean Dupont"
                             value="{{ old('nom', auth()->user()->name ?? '') }}"
                             class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-2">Email</label>
+                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-2">{{ __('Email') }}</label>
                         <input type="email" name="email" placeholder="nom@exemple.com"
                             value="{{ old('email', auth()->user()->email ?? '') }}"
                             class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm">
                     </div>
                 </div>
                 <div class="mb-4">
-                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-2">Votre message</label>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-2">{{ __('Votre message') }}</label>
                     <textarea name="contenu" rows="4"
                         placeholder="Que pensez-vous de cet article ?"
                         class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm resize-none">{{ old('contenu') }}</textarea>
                 </div>
                 <button type="submit"
                     class="bg-gradient-to-r from-blue-500 to-green-500 text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 text-sm">
-                    Publier mon commentaire
+                    {{ __('Publier mon commentaire') }}
                 </button>
             </form>
         </div>
@@ -183,7 +183,7 @@
                     <div class="flex items-center gap-2">
                         <p class="font-semibold text-gray-800 text-sm">{{ $comment->nom }}</p>
                         @if($comment->user_id === $post->user_id)
-                            <span class="bg-blue-100 text-blue-600 text-xs px-2 py-0.5 rounded-full font-semibold">AUTEUR</span>
+                            <span class="bg-blue-100 text-blue-600 text-xs px-2 py-0.5 rounded-full font-semibold">{{ __('AUTEUR') }}</span>
                         @endif
                     </div>
                     <p class="text-gray-400 text-xs">{{ $comment->created_at->diffForHumans() }}</p>
@@ -192,7 +192,7 @@
             </div>
         </div>
         @empty
-        <p class="text-gray-400 text-center py-8">Soyez le premier à commenter !</p>
+        <p class="text-gray-400 text-center py-8">{{ __('Soyez le premier à commenter !') }}</p>
         @endforelse
     </div>
 </div>
@@ -208,8 +208,7 @@ async function toggleLike(postId) {
             method: 'POST',
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
+                'Content-Type': 'application/json', @json(__("Accept")): 'application/json'
             }
         });
 
@@ -229,7 +228,7 @@ async function toggleLike(postId) {
             btn.classList.add('bg-gray-50', 'border-gray-200', 'text-gray-500');
         }
     } catch (error) {
-        console.error('Erreur like:', error);
+        console.error( @json(__("Erreur like:")), error);
     }
 }
 
@@ -253,11 +252,11 @@ function partager() {
             document.execCommand('copy');
             const btn = document.querySelector('[onclick="partager()"]');
             const original = btn.innerHTML;
-            btn.innerHTML = '🔗 Copié !';
+            btn.innerHTML =  @json(__("🔗 Copié !"));
             setTimeout(() => { btn.innerHTML = original; }, 2000);
         } catch (err) {
             // Si tout échoue, affiche l'URL dans une alerte
-            prompt('Copiez ce lien :', url);
+            prompt( @json(__("Copiez ce lien :")), url);
         }
 
         document.body.removeChild(textArea);
