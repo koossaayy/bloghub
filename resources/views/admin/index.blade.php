@@ -9,34 +9,34 @@
     {{-- Sidebar --}}
     <div class="w-56 shrink-0">
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-            <p class="text-xs text-gray-400 uppercase font-semibold mb-1">Espace Auteur</p>
-            <p class="text-sm text-gray-500 mb-6">Gérez vos publications</p>
+            <p class="text-xs text-gray-400 uppercase font-semibold mb-1">{{ __('Espace Auteur') }}</p>
+            <p class="text-sm text-gray-500 mb-6">{{ __('Gérez vos publications') }}</p>
             <nav class="flex flex-col gap-2">
                 <a href="{{ route('dashboard') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50">
-                    📊 Tableau de bord
+                    {{ __('📊 Tableau de bord') }}
                 </a>
                 <a href="{{ route('posts.mes') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-lg bg-blue-50 text-blue-600 font-semibold">
-                    📄 Mes Articles
+                    {{ __('📄 Mes Articles') }}
                 </a>
                 <a href="{{ route('posts.create') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50">
-                    ➕ Nouvel Article
+                    {{ __('➕ Nouvel Article') }}
                 </a>
                 <a href="{{ route('profile.edit') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50">
-                    👤 Mon Profil
+                    {{ __('👤 Mon Profil') }}
                 </a>
             </nav>
         </div>
 
         {{-- Prêt à partager --}}
         <div class="mt-4 bg-blue-50 rounded-xl p-4">
-            <p class="text-sm font-semibold text-gray-700 mb-3">Prêt à partager ?</p>
+            <p class="text-sm font-semibold text-gray-700 mb-3">{{ __('Prêt à partager ?') }}</p>
             <a href="{{ route('posts.create') }}"
                 class="w-full block text-center bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 text-sm">
-                Publier maintenant
+                {{ __('Publier maintenant') }}
             </a>
         </div>
     </div>
@@ -47,8 +47,8 @@
         {{-- Header --}}
         <div class="flex justify-between items-center mb-8">
             <div>
-                <h1 class="text-3xl font-bold text-gray-800">Panneau de Modération</h1>
-                <p class="text-gray-500">Supervisez le contenu et la communauté BlogHub</p>
+                <h1 class="text-3xl font-bold text-gray-800">{{ __('Panneau de Modération') }}</h1>
+                <p class="text-gray-500">{{ __('Supervisez le contenu et la communauté BlogHub') }}</p>
             </div>
             <div class="flex items-center gap-3">
                 <div class="relative">
@@ -74,7 +74,7 @@
             {{-- Taux approbation --}}
             <div class="bg-white rounded-xl border-l-4 border-blue-500 p-6 flex justify-between items-center shadow-sm">
                 <div>
-                    <p class="text-xs text-gray-400 uppercase font-semibold mb-1">Taux d'approbation</p>
+                    <p class="text-xs text-gray-400 uppercase font-semibold mb-1">{{ __("Taux d'approbation") }}</p>
                     @php
                         $totalPosts = \App\Models\Post::count();
                         $publies = \App\Models\Post::where('statut', 'publie')->count();
@@ -88,7 +88,7 @@
             {{-- Nouveaux auteurs --}}
             <div class="bg-white rounded-xl border-l-4 border-green-500 p-6 flex justify-between items-center shadow-sm">
                 <div>
-                    <p class="text-xs text-gray-400 uppercase font-semibold mb-1">Nouveaux Auteurs</p>
+                    <p class="text-xs text-gray-400 uppercase font-semibold mb-1">{{ __('Nouveaux Auteurs') }}</p>
                     <p class="text-3xl font-bold text-gray-800">+{{ $users->where('role', 'auteur')->count() }}</p>
                 </div>
                 <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-2xl">👥</div>
@@ -97,7 +97,7 @@
             {{-- Alertes critiques --}}
             <div class="bg-white rounded-xl border-l-4 border-red-500 p-6 flex justify-between items-center shadow-sm">
                 <div>
-                    <p class="text-xs text-gray-400 uppercase font-semibold mb-1">Alertes Critiques</p>
+                    <p class="text-xs text-gray-400 uppercase font-semibold mb-1">{{ __('Alertes Critiques') }}</p>
                     <p class="text-3xl font-bold text-gray-800">{{ str_pad($commentsSignales->count(), 2, '0', STR_PAD_LEFT) }}</p>
                 </div>
                 <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center text-2xl">⚠️</div>
@@ -111,19 +111,19 @@
                 <button @click="tab = 'articles'"
                     :class="tab === 'articles' ? 'border-b-2 border-blue-500 text-blue-600' : 'text-gray-500'"
                     class="pb-3 font-semibold flex items-center gap-2">
-                    Articles en attente
+                    {{ __('Articles en attente') }}
                     <span class="bg-blue-100 text-blue-600 text-xs px-2 py-0.5 rounded-full">{{ $postEnAttente->count() }}</span>
                 </button>
                 <button @click="tab = 'comments'"
                     :class="tab === 'comments' ? 'border-b-2 border-blue-500 text-blue-600' : 'text-gray-500'"
                     class="pb-3 font-semibold flex items-center gap-2">
-                    Commentaires signalés
+                    {{ __('Commentaires signalés') }}
                     <span class="bg-red-100 text-red-600 text-xs px-2 py-0.5 rounded-full">{{ $commentsSignales->count() }}</span>
                 </button>
                 <button @click="tab = 'users'"
                     :class="tab === 'users' ? 'border-b-2 border-blue-500 text-blue-600' : 'text-gray-500'"
                     class="pb-3 font-semibold">
-                    Gestion utilisateurs
+                    {{ __('Gestion utilisateurs') }}
                 </button>
             </div>
 
@@ -131,19 +131,19 @@
             <div x-show="tab === 'articles'">
                 <div class="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm">
                     <div class="flex justify-between items-center px-6 py-4 border-b border-gray-100">
-                        <h2 class="font-bold text-gray-800">Révision des publications</h2>
+                        <h2 class="font-bold text-gray-800">{{ __('Révision des publications') }}</h2>
                         <button class="flex items-center gap-2 text-sm text-gray-500 bg-gray-100 px-3 py-1.5 rounded-lg hover:bg-gray-200">
-                            ⚙️ Filtrer
+                            {{ __('⚙️ Filtrer') }}
                         </button>
                     </div>
                     <table class="w-full">
                         <thead class="bg-gray-50">
                             <tr class="text-xs text-gray-400 uppercase">
-                                <th class="text-left px-6 py-4">Article</th>
-                                <th class="text-left px-6 py-4">Auteur</th>
-                                <th class="text-left px-6 py-4">Date de soumission</th>
-                                <th class="text-left px-6 py-4">Catégorie</th>
-                                <th class="text-left px-6 py-4">Actions</th>
+                                <th class="text-left px-6 py-4">{{ __('Article') }}</th>
+                                <th class="text-left px-6 py-4">{{ __('Auteur') }}</th>
+                                <th class="text-left px-6 py-4">{{ __('Date de soumission') }}</th>
+                                <th class="text-left px-6 py-4">{{ __('Catégorie') }}</th>
+                                <th class="text-left px-6 py-4">{{ __('Actions') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -162,8 +162,7 @@
                                         <div>
                                             <p class="font-semibold text-gray-800">{{ Str::limit($post->titre, 45) }}</p>
                                             <p class="text-xs text-gray-400">
-                                                {{ str_word_count(strip_tags($post->contenu)) }} mots •
-                                                Lecture {{ ceil(str_word_count(strip_tags($post->contenu)) / 200) }} min
+                                                {{ str_word_count(strip_tags($post->contenu)) }} {{ __('mots Lecture') }} {{ ceil(str_word_count(strip_tags($post->contenu)) / 200) }} {{ __('min') }}
                                             </p>
                                         </div>
                                     </div>
@@ -189,13 +188,13 @@
                                         <form method="POST" action="{{ route('admin.posts.approuver', $post->id) }}">
                                             @csrf @method('PUT')
                                             <button class="bg-green-100 text-green-600 px-3 py-1 rounded-lg text-sm font-semibold hover:bg-green-200">
-                                                Approuver
+                                                {{ __('Approuver') }}
                                             </button>
                                         </form>
                                         <form method="POST" action="{{ route('admin.posts.rejeter', $post->id) }}">
                                             @csrf @method('PUT')
                                             <button class="bg-red-100 text-red-600 px-3 py-1 rounded-lg text-sm font-semibold hover:bg-red-200">
-                                                Rejeter
+                                                {{ __('Rejeter') }}
                                             </button>
                                         </form>
                                     </div>
@@ -203,7 +202,7 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="5" class="text-center text-gray-400 py-8">Aucun article en attente.</td>
+                                <td colspan="5" class="text-center text-gray-400 py-8">{{ __('Aucun article en attente.') }}</td>
                             </tr>
                             @endforelse
                         </tbody>
@@ -217,10 +216,10 @@
                     <table class="w-full">
                         <thead class="bg-gray-50">
                             <tr class="text-xs text-gray-400 uppercase">
-                                <th class="text-left px-6 py-4">Commentaire</th>
-                                <th class="text-left px-6 py-4">Auteur</th>
-                                <th class="text-left px-6 py-4">Article</th>
-                                <th class="text-left px-6 py-4">Actions</th>
+                                <th class="text-left px-6 py-4">{{ __('Commentaire') }}</th>
+                                <th class="text-left px-6 py-4">{{ __('Auteur') }}</th>
+                                <th class="text-left px-6 py-4">{{ __('Article') }}</th>
+                                <th class="text-left px-6 py-4">{{ __('Actions') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -234,14 +233,14 @@
                                         <form method="POST" action="{{ route('admin.comments.approuver', $comment->id) }}">
                                             @csrf @method('PUT')
                                             <button class="bg-green-100 text-green-600 px-3 py-1 rounded-lg text-sm font-semibold hover:bg-green-200">
-                                                Approuver
+                                                {{ __('Approuver') }}
                                             </button>
                                         </form>
                                         <form method="POST" action="{{ route('admin.comments.supprimer', $comment->id) }}">
                                             @csrf @method('DELETE')
                                             <button class="bg-red-100 text-red-600 px-3 py-1 rounded-lg text-sm font-semibold hover:bg-red-200"
                                                 onclick="return confirm('Supprimer ?')">
-                                                Supprimer
+                                                {{ __('Supprimer') }}
                                             </button>
                                         </form>
                                     </div>
@@ -249,7 +248,7 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="4" class="text-center text-gray-400 py-8">Aucun commentaire signalé.</td>
+                                <td colspan="4" class="text-center text-gray-400 py-8">{{ __('Aucun commentaire signalé.') }}</td>
                             </tr>
                             @endforelse
                         </tbody>
@@ -261,7 +260,7 @@
             <div x-show="tab === 'users'" x-cloak>
                 <div class="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm">
                     <div class="p-6 border-b border-gray-100 flex justify-between items-center">
-                        <h2 class="text-xl font-bold text-gray-800">Gestion des Utilisateurs</h2>
+                        <h2 class="text-xl font-bold text-gray-800">{{ __('Gestion des Utilisateurs') }}</h2>
                         <div class="relative">
                             <span class="absolute left-3 top-2.5 text-gray-400">🔍</span>
                             <input type="text" placeholder="Rechercher un utilisateur..."
@@ -271,11 +270,11 @@
                     <table class="w-full">
                         <thead class="bg-gray-50">
                             <tr class="text-xs text-gray-400 uppercase">
-                                <th class="text-left px-6 py-4">Utilisateur</th>
-                                <th class="text-left px-6 py-4">Rôle</th>
-                                <th class="text-left px-6 py-4">Statut</th>
-                                <th class="text-left px-6 py-4">Dernière activité</th>
-                                <th class="text-left px-6 py-4">Action</th>
+                                <th class="text-left px-6 py-4">{{ __('Utilisateur') }}</th>
+                                <th class="text-left px-6 py-4">{{ __('Rôle') }}</th>
+                                <th class="text-left px-6 py-4">{{ __('Statut') }}</th>
+                                <th class="text-left px-6 py-4">{{ __('Dernière activité') }}</th>
+                                <th class="text-left px-6 py-4">{{ __('Action') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -295,17 +294,17 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     @if($user->role === 'admin')
-                                        <span class="bg-blue-600 text-white text-xs px-3 py-1 rounded-full font-semibold uppercase">Admin</span>
+                                        <span class="bg-blue-600 text-white text-xs px-3 py-1 rounded-full font-semibold uppercase">{{ __('Admin') }}</span>
                                     @elseif($user->role === 'auteur')
-                                        <span class="bg-gray-200 text-gray-600 text-xs px-3 py-1 rounded-full font-semibold uppercase">Auteur</span>
+                                        <span class="bg-gray-200 text-gray-600 text-xs px-3 py-1 rounded-full font-semibold uppercase">{{ __('Auteur') }}</span>
                                     @else
-                                        <span class="bg-gray-100 text-gray-500 text-xs px-3 py-1 rounded-full font-semibold uppercase">Lecteur</span>
+                                        <span class="bg-gray-100 text-gray-500 text-xs px-3 py-1 rounded-full font-semibold uppercase">{{ __('Lecteur') }}</span>
                                     @endif
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-2">
                                         <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-                                        <span class="text-sm text-gray-600">En ligne</span>
+                                        <span class="text-sm text-gray-600">{{ __('En ligne') }}</span>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 text-gray-400 text-sm">{{ $user->updated_at->diffForHumans() }}</td>
@@ -313,9 +312,9 @@
                                     <form method="POST" action="{{ route('admin.users.role', $user->id) }}" class="flex gap-2">
                                         @csrf @method('PUT')
                                         <select name="role" class="text-sm border border-gray-200 rounded-lg px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                                            <option value="lecteur" {{ $user->role === 'lecteur' ? 'selected' : '' }}>Lecteur</option>
-                                            <option value="auteur" {{ $user->role === 'auteur' ? 'selected' : '' }}>Auteur</option>
-                                            <option value="admin" {{ $user->role === 'admin' ? 'selected' : '' }}>Admin</option>
+                                            <option value="lecteur" {{ $user->role === 'lecteur' ? 'selected' : '' }}>{{ __('Lecteur') }}</option>
+                                            <option value="auteur" {{ $user->role === 'auteur' ? 'selected' : '' }}>{{ __('Auteur') }}</option>
+                                            <option value="admin" {{ $user->role === 'admin' ? 'selected' : '' }}>{{ __('Admin') }}</option>
                                         </select>
                                         <button class="bg-blue-100 text-blue-600 px-3 py-1 rounded-lg text-sm font-semibold hover:bg-blue-200">
                                             ✓
