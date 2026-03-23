@@ -27,25 +27,25 @@ class AdminController extends Controller
     public function approuverPost($id)
     {
         Post::findOrFail($id)->update(['statut' => 'publie']);
-        return back()->with('success', 'Article approuvé !');
+        return back()->with('success', __('Article approuvé !'));
     }
 
     public function rejeterPost($id)
     {
         Post::findOrFail($id)->update(['statut' => 'brouillon']);
-        return back()->with('success', 'Article rejeté !');
+        return back()->with('success', __('Article rejeté !'));
     }
 
     public function approuverComment($id)
     {
         Comment::findOrFail($id)->update(['approuve' => true]);
-        return back()->with('success', 'Commentaire approuvé !');
+        return back()->with('success', __('Commentaire approuvé !'));
     }
 
     public function supprimerComment($id)
     {
         Comment::findOrFail($id)->delete();
-        return back()->with('success', 'Commentaire supprimé !');
+        return back()->with('success', __('Commentaire supprimé !'));
     }
 
     public function changerRole(Request $request, $id)
@@ -55,6 +55,6 @@ class AdminController extends Controller
         ]);
 
         User::findOrFail($id)->update(['role' => $request->role]);
-        return back()->with('success', 'Rôle mis à jour !');
+        return back()->with('success', __('Rôle mis à jour !'));
     }
 }

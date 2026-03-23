@@ -7,17 +7,17 @@
 {{-- Hero --}}
 <div class="bg-gray-100 rounded-2xl p-8 md:p-16 text-center mb-12">
     <h1 class="text-3xl md:text-5xl font-bold text-gray-800 mb-4 leading-tight">
-        L'excellence du <span class="italic text-blue-500">journalisme digital</span> à portée de clic.
+        {{ __("L'excellence du") }} <span class="italic text-blue-500">{{ __('journalisme digital') }}</span> {{ __('à portée de clic.') }}
     </h1>
     <p class="text-gray-500 mb-8 text-base md:text-lg max-w-xl mx-auto">
-        Découvrez des perspectives uniques, des analyses approfondies et les dernières tendances du monde technologique et culturel.
+        {{ __('Découvrez des perspectives uniques, des analyses approfondies et les dernières tendances du monde technologique et culturel.') }}
     </p>
     <form method="GET" action="{{ route('accueil') }}" class="flex flex-col sm:flex-row justify-center gap-2 max-w-lg mx-auto">
         <input type="text" name="search" placeholder="Rechercher un sujet, un auteur ou un article..."
             value="{{ request('search') }}"
             class="flex-1 px-5 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white text-sm">
         <button class="bg-gradient-to-r from-blue-500 to-green-500 text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 whitespace-nowrap">
-            Chercher
+            {{ __('Chercher') }}
         </button>
     </form>
 </div>
@@ -27,19 +27,19 @@
     {{-- Articles --}}
     <div style="flex: 1; min-width: 300px;">
         <div class="flex flex-wrap justify-between items-center mb-6 gap-4">
-            <h2 class="text-2xl font-bold text-gray-800">Dernières Publications</h2>
+            <h2 class="text-2xl font-bold text-gray-800">{{ __('Dernières Publications') }}</h2>
             <div class="flex gap-4 text-sm">
                 <a href="{{ route('accueil', array_merge(request()->query(), ['sort' => 'recent'])) }}"
                     class="{{ ($sort ?? 'recent') === 'recent' ? 'text-blue-600 font-semibold border-b-2 border-blue-600 pb-1' : 'text-gray-500 hover:text-blue-600' }}">
-                    Plus récents
+                    {{ __('Plus récents') }}
                 </a>
                 <a href="{{ route('accueil', array_merge(request()->query(), ['sort' => 'likes'])) }}"
                     class="{{ ($sort ?? 'recent') === 'likes' ? 'text-blue-600 font-semibold border-b-2 border-blue-600 pb-1' : 'text-gray-500 hover:text-blue-600' }}">
-                    Populaires
+                    {{ __('Populaires') }}
                 </a>
                 <a href="{{ route('accueil', array_merge(request()->query(), ['sort' => 'comments'])) }}"
                     class="{{ ($sort ?? 'recent') === 'comments' ? 'text-blue-600 font-semibold border-b-2 border-blue-600 pb-1' : 'text-gray-500 hover:text-blue-600' }}">
-                    Tendances
+                    {{ __('Tendances') }}
                 </a>
             </div>
         </div>
@@ -82,7 +82,7 @@
                             <span>💬 {{ $featured->comments->count() }}</span>
                             <a href="{{ route('posts.show', $featured->slug) }}"
                                 class="text-blue-500 font-semibold hover:underline">
-                                Lire →
+                                {{ __('Lire →') }}
                             </a>
                         </div>
                     </div>
@@ -115,7 +115,7 @@
                             </div>
                             <span class="text-xs text-gray-500">{{ Str::limit($post->user->name, 15) }}</span>
                         </div>
-                        <span class="text-xs text-gray-400">{{ ceil(str_word_count(strip_tags($post->contenu)) / 200) }} MIN LECTURE</span>
+                        <span class="text-xs text-gray-400">{{ ceil(str_word_count(strip_tags($post->contenu)) / 200) }} {{ __('MIN LECTURE') }}</span>
                     </div>
                 </div>
             </div>
@@ -134,7 +134,7 @@
 
         {{-- Catégories Populaires --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
-            <h3 class="font-bold text-gray-800 mb-4">Catégories Populaires</h3>
+            <h3 class="font-bold text-gray-800 mb-4">{{ __('Catégories Populaires') }}</h3>
             @foreach($categories as $cat)
             <a href="{{ route('categories.show', $cat->slug) }}"
                 class="flex justify-between items-center py-2 border-b border-gray-50 text-gray-600 hover:text-blue-600">
@@ -149,7 +149,7 @@
 
         {{-- Tags Tendances --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
-            <h3 class="font-bold text-gray-800 mb-4">Tags Tendances</h3>
+            <h3 class="font-bold text-gray-800 mb-4">{{ __('Tags Tendances') }}</h3>
             <div class="flex flex-wrap gap-2">
                 @foreach($tags as $tag)
                 <a href="{{ route('tags.show', $tag->slug) }}"
@@ -162,7 +162,7 @@
 
         {{-- Auteurs Vedettes --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
-            <h3 class="font-bold text-gray-800 mb-4">Auteurs Vedettes</h3>
+            <h3 class="font-bold text-gray-800 mb-4">{{ __('Auteurs Vedettes') }}</h3>
             @foreach(\App\Models\User::withCount('posts')->where('role', 'auteur')->orWhere('role', 'admin')->orderByDesc('posts_count')->take(3)->get() as $auteur)
             <div class="flex items-center gap-3 py-2 border-b border-gray-50">
                 <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-green-400 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0">
@@ -170,17 +170,17 @@
                 </div>
                 <div>
                     <p class="font-semibold text-gray-800 text-sm">{{ $auteur->name }}</p>
-                    <p class="text-gray-400 text-xs">{{ $auteur->posts_count }} article(s)</p>
+                    <p class="text-gray-400 text-xs">{{ $auteur->posts_count }} {{ __('article(s)') }}</p>
                 </div>
             </div>
             @endforeach
-            <a href="{{ route('posts.index') }}" class="block text-center text-blue-500 text-sm mt-4 hover:underline">Voir tous les articles</a>
+            <a href="{{ route('posts.index') }}" class="block text-center text-blue-500 text-sm mt-4 hover:underline">{{ __('Voir tous les articles') }}</a>
         </div>
 
         {{-- Newsletter --}}
         <div class="bg-gradient-to-br from-blue-500 to-green-500 rounded-xl p-6">
-            <h3 class="font-bold text-white mb-2">Newsletter</h3>
-            <p class="text-white/80 text-sm mb-4">Recevez le meilleur de BlogHub directement dans votre boite mail chaque lundi matin.</p>
+            <h3 class="font-bold text-white mb-2">{{ __('Newsletter') }}</h3>
+            <p class="text-white/80 text-sm mb-4">{{ __('Recevez le meilleur de BlogHub directement dans votre boite mail chaque lundi matin.') }}</p>
             @if(session('newsletter_success'))
                 <div class="bg-white/20 text-white px-4 py-3 rounded-lg text-sm font-semibold text-center">
                     ✅ {{ session('newsletter_success') }}
@@ -193,7 +193,7 @@
                         required>
                     <button type="submit"
                         class="w-full bg-white text-blue-600 py-2 rounded-lg font-semibold text-sm hover:bg-gray-100 transition-colors">
-                        S'abonner
+                        {{ __("S'abonner") }}
                     </button>
                 </form>
             @endif

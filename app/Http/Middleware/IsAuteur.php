@@ -11,7 +11,7 @@ class IsAuteur
     {
         if (!auth()->check() || 
             (!auth()->user()->isAuteur() && !auth()->user()->isAdmin())) {
-            abort(403, 'Accès refusé');
+            abort(403, __('Accès refusé'));
         }
 
         return $next($request);
