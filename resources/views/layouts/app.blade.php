@@ -32,6 +32,7 @@
                     <a href="{{ route('accueil') }}" class="text-gray-600 hover:text-blue-600">{{ __('Accueil') }}</a>
                     <a href="{{ route('posts.index') }}" class="text-gray-600 hover:text-blue-600">{{ __('Articles') }}</a>
                     <a href="{{ route('categories.index') }}" class="text-gray-600 hover:text-blue-600">{{ __('Catégories') }}</a>
+                    <a href="{{ route('stats') }}" class="text-gray-600 hover:text-blue-600">{{ __('Statistiques') }}</a>
                 </div>
 
                 {{-- Auth desktop --}}

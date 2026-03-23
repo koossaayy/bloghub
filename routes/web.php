@@ -8,8 +8,10 @@ use App\Http\Controllers\TagController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StatsController;
 
 // ─── Routes publiques ───────────────────────────────────────
+Route::get('/statistiques', [StatsController::class, 'index'])->name('stats');
 Route::get('/', [PostController::class, 'accueil'])->name('accueil');
 Route::get('/articles', [PostController::class, 'index'])->name('posts.index');
 Route::get('/articles/{slug}', [PostController::class, 'show'])->name('posts.show');
