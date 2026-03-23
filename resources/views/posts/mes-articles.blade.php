@@ -6,24 +6,24 @@
     {{-- Sidebar --}}
     <div class="w-56 shrink-0">
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-            <p class="text-xs text-gray-400 uppercase font-semibold mb-1">Espace Auteur</p>
-            <p class="text-sm text-gray-500 mb-6">Gérez vos publications</p>
+            <p class="text-xs text-gray-400 uppercase font-semibold mb-1">{{ __('Espace Auteur') }}</p>
+            <p class="text-sm text-gray-500 mb-6">{{ __('Gérez vos publications') }}</p>
             <nav class="flex flex-col gap-2">
                 <a href="{{ route('dashboard') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50">
-                    📊 Tableau de bord
+                    {{ __('📊 Tableau de bord') }}
                 </a>
                 <a href="{{ route('posts.mes') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-lg bg-blue-50 text-blue-600 font-semibold">
-                    📄 Mes Articles
+                    {{ __('📄 Mes Articles') }}
                 </a>
                 <a href="{{ route('posts.create') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50">
-                    ➕ Nouvel Article
+                    {{ __('➕ Nouvel Article') }}
                 </a>
                 <a href="{{ route('profile.edit') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50">
-                    👤 Mon Profil
+                    {{ __('👤 Mon Profil') }}
                 </a>
             </nav>
         </div>
@@ -32,10 +32,10 @@
     {{-- Contenu --}}
     <div class="flex-1">
         <div class="flex justify-between items-center mb-6">
-            <h1 class="text-3xl font-bold text-gray-800">Mes Articles</h1>
+            <h1 class="text-3xl font-bold text-gray-800">{{ __('Mes Articles') }}</h1>
             <a href="{{ route('posts.create') }}"
                 class="bg-gradient-to-r from-blue-500 to-green-500 text-white px-5 py-2 rounded-lg font-semibold hover:opacity-90">
-                ➕ Nouvel Article
+                {{ __('➕ Nouvel Article') }}
             </a>
         </div>
 
@@ -43,11 +43,11 @@
             <table class="w-full">
                 <thead>
                     <tr class="text-xs text-gray-400 uppercase border-b border-gray-100">
-                        <th class="text-left pb-3">Titre</th>
-                        <th class="text-left pb-3">Statut</th>
-                        <th class="text-left pb-3">Catégorie</th>
-                        <th class="text-left pb-3">Date</th>
-                        <th class="text-left pb-3">Actions</th>
+                        <th class="text-left pb-3">{{ __('Titre') }}</th>
+                        <th class="text-left pb-3">{{ __('Statut') }}</th>
+                        <th class="text-left pb-3">{{ __('Catégorie') }}</th>
+                        <th class="text-left pb-3">{{ __('Date') }}</th>
+                        <th class="text-left pb-3">{{ __('Actions') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -56,11 +56,11 @@
                         <td class="py-4 text-gray-800 font-medium">{{ Str::limit($post->titre, 50) }}</td>
                         <td class="py-4">
                             @if($post->statut === 'publie')
-                                <span class="bg-green-100 text-green-600 text-xs px-3 py-1 rounded-full font-semibold uppercase">Publié</span>
+                                <span class="bg-green-100 text-green-600 text-xs px-3 py-1 rounded-full font-semibold uppercase">{{ __('Publié') }}</span>
                             @elseif($post->statut === 'brouillon')
-                                <span class="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full font-semibold uppercase">Brouillon</span>
+                                <span class="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full font-semibold uppercase">{{ __('Brouillon') }}</span>
                             @else
-                                <span class="bg-yellow-100 text-yellow-600 text-xs px-3 py-1 rounded-full font-semibold uppercase">En attente</span>
+                                <span class="bg-yellow-100 text-yellow-600 text-xs px-3 py-1 rounded-full font-semibold uppercase">{{ __('En attente') }}</span>
                             @endif
                         </td>
                         <td class="py-4 text-gray-500">{{ $post->category->nom ?? '—' }}</td>
@@ -79,7 +79,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="5" class="text-center text-gray-400 py-8">Aucun article pour le moment.</td>
+                        <td colspan="5" class="text-center text-gray-400 py-8">{{ __('Aucun article pour le moment.') }}</td>
                     </tr>
                     @endforelse
                 </tbody>

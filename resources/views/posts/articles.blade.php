@@ -5,8 +5,8 @@
 @section('contenu')
 
 <div class="mb-8">
-    <h1 class="text-3xl font-bold text-gray-800 mb-2">Tous les Articles</h1>
-    <p class="text-gray-500">{{ $posts->total() }} article(s) disponibles</p>
+    <h1 class="text-3xl font-bold text-gray-800 mb-2">{{ __('Tous les Articles') }}</h1>
+    <p class="text-gray-500">{{ $posts->total() }} {{ __('article(s) disponibles') }}</p>
 </div>
 
 {{-- Filtres --}}
@@ -14,7 +14,7 @@
     <div class="flex gap-3 flex-wrap">
         <a href="{{ route('posts.index') }}"
             class="{{ !request('category') && !request('search') ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 border border-gray-200' }} px-4 py-2 rounded-lg text-sm font-semibold hover:opacity-90">
-            Tous
+            {{ __('Tous') }}
         </a>
         @foreach($categories as $cat)
         <a href="{{ route('posts.index', ['category' => $cat->slug]) }}"
@@ -38,15 +38,15 @@
 <div class="flex gap-4 text-sm mb-6 border-b border-gray-200 pb-4">
     <a href="{{ route('posts.index', array_merge(request()->query(), ['sort' => 'recent'])) }}"
         class="{{ $sort === 'recent' ? 'text-blue-600 font-semibold border-b-2 border-blue-600 pb-4 -mb-4' : 'text-gray-500 hover:text-blue-600' }}">
-        Plus récents
+        {{ __('Plus récents') }}
     </a>
     <a href="{{ route('posts.index', array_merge(request()->query(), ['sort' => 'likes'])) }}"
         class="{{ $sort === 'likes' ? 'text-blue-600 font-semibold border-b-2 border-blue-600 pb-4 -mb-4' : 'text-gray-500 hover:text-blue-600' }}">
-        Populaires ❤️
+        {{ __('Populaires ❤️') }}
     </a>
     <a href="{{ route('posts.index', array_merge(request()->query(), ['sort' => 'comments'])) }}"
         class="{{ $sort === 'comments' ? 'text-blue-600 font-semibold border-b-2 border-blue-600 pb-4 -mb-4' : 'text-gray-500 hover:text-blue-600' }}">
-        Tendances 💬
+        {{ __('Tendances 💬') }}
     </a>
 </div>
 
@@ -89,7 +89,7 @@
                 <div class="flex items-center gap-3 text-xs text-gray-400">
                     <span>❤️ {{ $post->likes->count() }}</span>
                     <span>💬 {{ $post->comments->count() }}</span>
-                    <span>{{ ceil(str_word_count(strip_tags($post->contenu)) / 200) }} min</span>
+                    <span>{{ ceil(str_word_count(strip_tags($post->contenu)) / 200) }} {{ __('min') }}</span>
                 </div>
             </div>
         </div>
@@ -97,8 +97,8 @@
     @empty
     <div class="col-span-3 text-center py-16 text-gray-400">
         <p class="text-4xl mb-4">📭</p>
-        <p class="text-xl font-semibold mb-2">Aucun article trouvé</p>
-        <p class="text-sm">Essayez avec d'autres mots-clés</p>
+        <p class="text-xl font-semibold mb-2">{{ __('Aucun article trouvé') }}</p>
+        <p class="text-sm">{{ __("Essayez avec d'autres mots-clés") }}</p>
     </div>
     @endforelse
 </div>

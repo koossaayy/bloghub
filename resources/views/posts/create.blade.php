@@ -15,33 +15,33 @@
                     {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                 </div>
                 <div>
-                    <p class="text-xs text-gray-400 uppercase font-semibold">Espace Auteur</p>
-                    <p class="text-sm text-gray-500">Gérez vos publications</p>
+                    <p class="text-xs text-gray-400 uppercase font-semibold">{{ __('Espace Auteur') }}</p>
+                    <p class="text-sm text-gray-500">{{ __('Gérez vos publications') }}</p>
                 </div>
             </div>
             <nav class="flex flex-col gap-2">
                 <a href="{{ route('dashboard') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50">
-                    📊 Tableau de bord
+                    {{ __('📊 Tableau de bord') }}
                 </a>
                 <a href="{{ route('posts.mes') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50">
-                    📄 Mes Articles
+                    {{ __('📄 Mes Articles') }}
                 </a>
                 <a href="{{ route('posts.create') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-lg bg-blue-50 text-blue-600 font-semibold">
-                    ➕ Nouvel Article
+                    {{ __('➕ Nouvel Article') }}
                 </a>
                 <a href="{{ route('profile.edit') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50">
-                    👤 Mon Profil
+                    {{ __('👤 Mon Profil') }}
                 </a>
             </nav>
         </div>
         <div class="mt-4">
             <button onclick="document.getElementById('form-article').submit()"
                 class="w-full block text-center bg-gradient-to-r from-blue-500 to-green-500 text-white px-4 py-3 rounded-lg font-semibold hover:opacity-90">
-                ✏️ Publier maintenant
+                {{ __('✏️ Publier maintenant') }}
             </button>
         </div>
     </div>
@@ -53,20 +53,20 @@
         <div class="flex justify-between items-center mb-6">
             <div>
                 <p class="text-sm text-gray-400">
-                    <a href="{{ route('dashboard') }}" class="hover:text-blue-500">Articles</a>
+                    <a href="{{ route('dashboard') }}" class="hover:text-blue-500">{{ __('Articles') }}</a>
                     <span class="mx-2">›</span>
-                    <span class="text-blue-500">Nouvel Article</span>
+                    <span class="text-blue-500">{{ __('Nouvel Article') }}</span>
                 </p>
-                <h1 class="text-2xl font-bold text-gray-800">Éditeur de Publication</h1>
+                <h1 class="text-2xl font-bold text-gray-800">{{ __('Éditeur de Publication') }}</h1>
             </div>
             <div class="flex gap-3">
                 <button type="button" onclick="setStatut('brouillon')"
                     class="bg-gray-100 text-gray-700 px-5 py-2 rounded-lg font-semibold hover:bg-gray-200">
-                    Enregistrer
+                    {{ __('Enregistrer') }}
                 </button>
                 <button type="button" onclick="setStatut('publie')"
                     class="bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-blue-700">
-                    Publier
+                    {{ __('Publier') }}
                 </button>
             </div>
         </div>
@@ -87,7 +87,7 @@
                 <div class="flex-1">
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-4">
 
-                        <label class="block text-xs text-gray-400 uppercase font-semibold mb-3">Titre de l'article</label>
+                        <label class="block text-xs text-gray-400 uppercase font-semibold mb-3">{{ __("Titre de l'article") }}</label>
                         <input type="text" name="titre" id="titre"
                             placeholder="Entrez un titre captivant..."
                             value="{{ old('titre') }}"
@@ -98,16 +98,16 @@
                         <div class="flex gap-2 mb-4 pb-4 border-b border-gray-100 flex-wrap">
                             <button type="button" onclick="format('bold')"
                                 title="Gras"
-                                class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded font-bold text-gray-600 hover:bg-blue-100 hover:text-blue-600">B</button>
+                                class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded font-bold text-gray-600 hover:bg-blue-100 hover:text-blue-600">{{ __('B') }}</button>
                             <button type="button" onclick="format('italic')"
                                 title="Italique"
-                                class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded italic text-gray-600 hover:bg-blue-100 hover:text-blue-600">I</button>
+                                class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded italic text-gray-600 hover:bg-blue-100 hover:text-blue-600">{{ __('I') }}</button>
                             <button type="button" onclick="insertTag('h1')"
                                 title="Titre H1"
-                                class="px-2 h-8 flex items-center justify-center bg-gray-100 rounded text-gray-600 hover:bg-blue-100 hover:text-blue-600 font-bold text-sm">H1</button>
+                                class="px-2 h-8 flex items-center justify-center bg-gray-100 rounded text-gray-600 hover:bg-blue-100 hover:text-blue-600 font-bold text-sm">{{ __('H1') }}</button>
                             <button type="button" onclick="insertTag('h2')"
                                 title="Titre H2"
-                                class="px-2 h-8 flex items-center justify-center bg-gray-100 rounded text-gray-600 hover:bg-blue-100 hover:text-blue-600 font-bold text-sm">H2</button>
+                                class="px-2 h-8 flex items-center justify-center bg-gray-100 rounded text-gray-600 hover:bg-blue-100 hover:text-blue-600 font-bold text-sm">{{ __('H2') }}</button>
                             <button type="button" onclick="insertTag('ul')"
                                 title="Liste"
                                 class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded text-gray-600 hover:bg-blue-100 hover:text-blue-600 text-lg">≡</button>
@@ -143,21 +143,21 @@
 
                         {{-- Statut toggle --}}
                         <div class="flex justify-between items-center mb-5">
-                            <label class="text-xs text-gray-400 uppercase font-semibold">Statut</label>
+                            <label class="text-xs text-gray-400 uppercase font-semibold">{{ __('Statut') }}</label>
                             <div class="flex items-center gap-2 cursor-pointer" onclick="toggleStatut()">
-                                <span class="text-sm" id="label-brouillon">Brouillon</span>
+                                <span class="text-sm" id="label-brouillon">{{ __('Brouillon') }}</span>
                                 <div id="toggle-btn" class="w-10 h-5 bg-gray-300 rounded-full relative transition-colors duration-200">
                                     <div id="toggle-circle" class="w-4 h-4 bg-white rounded-full absolute left-0.5 top-0.5 transition-all duration-200 shadow"></div>
                                 </div>
-                                <span class="text-sm text-gray-400" id="label-publie">Publié</span>
+                                <span class="text-sm text-gray-400" id="label-publie">{{ __('Publié') }}</span>
                             </div>
                         </div>
 
                         {{-- Catégorie --}}
-                        <label class="block text-xs text-gray-400 uppercase font-semibold mb-2">Catégorie</label>
+                        <label class="block text-xs text-gray-400 uppercase font-semibold mb-2">{{ __('Catégorie') }}</label>
                         <select name="category_id"
                             class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 mb-5">
-                            <option value="">Choisir une catégorie</option>
+                            <option value="">{{ __('Choisir une catégorie') }}</option>
                             @foreach($categories as $cat)
                                 <option value="{{ $cat->id }}" {{ old('category_id') == $cat->id ? 'selected' : '' }}>
                                     {{ $cat->nom }}
@@ -166,7 +166,7 @@
                         </select>
 
                         {{-- Tags --}}
-                        <label class="block text-xs text-gray-400 uppercase font-semibold mb-2">Tags</label>
+                        <label class="block text-xs text-gray-400 uppercase font-semibold mb-2">{{ __('Tags') }}</label>
                         <div class="flex flex-wrap gap-2">
                             @foreach($tags as $tag)
                                 <label id="tag-label-{{ $tag->id }}"
@@ -184,11 +184,11 @@
 
                     {{-- Image de couverture --}}
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-4">
-                        <label class="block text-xs text-gray-400 uppercase font-semibold mb-3">Image de couverture</label>
+                        <label class="block text-xs text-gray-400 uppercase font-semibold mb-3">{{ __('Image de couverture') }}</label>
                         <label class="border-2 border-dashed border-gray-200 rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer hover:border-blue-400 transition-colors">
                             <span class="text-3xl mb-2">☁️</span>
-                            <span class="text-gray-600 font-semibold text-sm" id="upload-text">Cliquer pour uploader</span>
-                            <span class="text-gray-400 text-xs mt-1">PNG, JPG ou WEBP (Max. 5MB)</span>
+                            <span class="text-gray-600 font-semibold text-sm" id="upload-text">{{ __('Cliquer pour uploader') }}</span>
+                            <span class="text-gray-400 text-xs mt-1">{{ __('PNG, JPG ou WEBP (Max. 5MB)') }}</span>
                             <input type="file" name="image" id="image-input" class="hidden" accept="image/*" onchange="previewImage(event)">
                         </label>
                         <img id="image-preview" src="" class="hidden w-full h-32 object-cover rounded-lg mt-3">
@@ -198,12 +198,12 @@
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
                         <div class="flex items-center gap-2 mb-3">
                             <span class="text-blue-500">🔵</span>
-                            <p class="text-sm font-semibold text-gray-700">Aperçu Google</p>
+                            <p class="text-sm font-semibold text-gray-700">{{ __('Aperçu Google') }}</p>
                         </div>
-                        <p class="text-blue-600 font-semibold text-sm mb-1" id="seo-titre">Mon nouvel article passionnan...</p>
-                        <p class="text-green-600 text-xs mb-1">bloghub.com/articles/mon-nouvel-article...</p>
-                        <p class="text-gray-500 text-xs">Le résumé de votre article apparaîtra ici pour attirer les lecteurs depuis les moteurs de...</p>
-                        <button type="button" class="text-blue-500 text-xs mt-2 hover:underline">Modifier les métadonnées SEO</button>
+                        <p class="text-blue-600 font-semibold text-sm mb-1" id="seo-titre">{{ __('Mon nouvel article passionnan...') }}</p>
+                        <p class="text-green-600 text-xs mb-1">bloghub.com/{{ __('Articles') }}/mon-nouvel-article...</p>
+                        <p class="text-gray-500 text-xs">{{ __('Le résumé de votre article apparaîtra ici pour attirer les lecteurs depuis les moteurs de...') }}</p>
+                        <button type="button" class="text-blue-500 text-xs mt-2 hover:underline">{{ __('Modifier les métadonnées SEO') }}</button>
                     </div>
 
                 </div>
@@ -250,7 +250,7 @@
 
     // Aperçu SEO en temps réel
     document.getElementById('titre').addEventListener('input', function() {
-        const titre = this.value || 'Mon nouvel article passionnan...';
+        const titre = this.value || @json(__("Mon nouvel article passionnan..."));
         document.getElementById('seo-titre').textContent = titre.substring(0, 50) + (titre.length > 50 ? '...' : '');
     });
 
@@ -272,7 +272,7 @@
     function insertTag(tag) {
         const textarea = document.getElementById('contenu');
         const start = textarea.selectionStart;
-        const selected = textarea.value.substring(start, textarea.selectionEnd) || 'Titre';
+        const selected = textarea.value.substring(start, textarea.selectionEnd) || @json(__("Titre"));
         let result = '';
 
         if (tag === 'h1') result = `\n# ${selected}\n`;
@@ -286,14 +286,14 @@
     function insertQuote() {
         const textarea = document.getElementById('contenu');
         const start = textarea.selectionStart;
-        const selected = textarea.value.substring(start, textarea.selectionEnd) || 'Votre citation ici';
+        const selected = textarea.value.substring(start, textarea.selectionEnd) || @json(__("Votre citation ici"));
         const result = `\n> ${selected}\n`;
         textarea.value = textarea.value.substring(0, start) + result + textarea.value.substring(textarea.selectionEnd);
         textarea.focus();
     }
 
     function insertLink() {
-        const url = prompt('Entrez l\'URL du lien :');
+        const url = prompt( @json(__("Entrez l\"))URL du lien :');
         if (url) {
             const textarea = document.getElementById('contenu');
             const start = textarea.selectionStart;
@@ -305,7 +305,7 @@
     }
 
     function insertImage() {
-        const url = prompt('Entrez l\'URL de l\'image :');
+        const url = prompt( @json(__("Entrez l\"))URL de l\'image :');
         if (url) {
             const textarea = document.getElementById('contenu');
             const start = textarea.selectionStart;

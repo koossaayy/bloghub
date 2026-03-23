@@ -28,9 +28,9 @@ class CommentController extends Controller
     ]);
 
     if ($approuve) {
-        return back()->with('success', 'Commentaire publié !');
+        return back()->with('success', __('Commentaire publié !'));
     }
 
-    return back()->with('success', 'Commentaire soumis pour modération !');
+    return back()->with('success', __('Commentaire soumis pour modération !'));
 }
 }
