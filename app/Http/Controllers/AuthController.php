@@ -27,7 +27,7 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'Identifiants incorrects.',
+            'email' => __('Identifiants incorrects.'),
         ]);
     }
 
