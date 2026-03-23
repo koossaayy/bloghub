@@ -18,27 +18,27 @@
                 @endif
             </div>
             <p class="font-bold text-gray-800">{{ auth()->user()->name }}</p>
-            <p class="text-xs text-gray-400 uppercase font-semibold mt-1">Espace Auteur</p>
-            <p class="text-sm text-gray-500">Gérez vos publications</p>
+            <p class="text-xs text-gray-400 uppercase font-semibold mt-1">{{ __('Espace Auteur') }}</p>
+            <p class="text-sm text-gray-500">{{ __('Gérez vos publications') }}</p>
         </div>
 
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
             <nav class="flex flex-col gap-2">
                 <a href="{{ route('dashboard') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-lg bg-blue-50 text-blue-600 font-semibold">
-                    <span class="text-lg">📊</span> Tableau de bord
+                    <span class="text-lg">📊</span> {{ __('Tableau de bord') }}
                 </a>
                 <a href="{{ route('posts.mes') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50">
-                    <span class="text-lg">📄</span> Mes Articles
+                    <span class="text-lg">📄</span> {{ __('Mes Articles') }}
                 </a>
                 <a href="{{ route('posts.create') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50">
-                    <span class="text-lg">➕</span> Nouvel Article
+                    <span class="text-lg">➕</span> {{ __('Nouvel Article') }}
                 </a>
                 <a href="{{ route('profile.edit') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50">
-                    <span class="text-lg">👤</span> Mon Profil
+                    <span class="text-lg">👤</span> {{ __('Mon Profil') }}
                 </a>
             </nav>
         </div>
@@ -46,7 +46,7 @@
         <div class="mt-4">
             <a href="{{ route('posts.create') }}"
                 class="w-full block text-center bg-gradient-to-r from-blue-500 to-green-500 text-white px-4 py-3 rounded-lg font-semibold hover:opacity-90">
-                ✏️ Publier maintenant
+                {{ __('✏️ Publier maintenant') }}
             </a>
         </div>
     </div>
@@ -57,8 +57,8 @@
         {{-- Header --}}
         <div class="flex justify-between items-start mb-8">
             <div>
-                <h1 class="text-3xl font-bold text-gray-800">Bienvenue, {{ explode(' ', auth()->user()->name)[0] }}</h1>
-                <p class="text-gray-500">Voici un aperçu de l'impact de vos écrits cette semaine.</p>
+                <h1 class="text-3xl font-bold text-gray-800">{{ __('Bienvenue,') }} {{ explode(' ', auth()->user()->name)[0] }}</h1>
+                <p class="text-gray-500">{{ __("Voici un aperçu de l'impact de vos écrits cette semaine.") }}</p>
             </div>
             <div class="bg-white border border-gray-200 rounded-lg px-4 py-2 text-sm text-gray-600 flex items-center gap-2">
                 📅 {{ now()->subDays(7)->format('d M') }} — {{ now()->format('d M Y') }}
@@ -72,7 +72,7 @@
                     <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-2xl">📄</div>
                     <span class="text-green-500 text-sm font-semibold">+12%</span>
                 </div>
-                <p class="text-xs text-gray-400 uppercase font-semibold mb-1">Total Articles</p>
+                <p class="text-xs text-gray-400 uppercase font-semibold mb-1">{{ __('Total Articles') }}</p>
                 <p class="text-3xl font-bold text-gray-800">{{ $posts->count() }}</p>
             </div>
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
@@ -80,7 +80,7 @@
                     <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-2xl">❤️</div>
                     <span class="text-green-500 text-sm font-semibold">+5%</span>
                 </div>
-                <p class="text-xs text-gray-400 uppercase font-semibold mb-1">Total Likes</p>
+                <p class="text-xs text-gray-400 uppercase font-semibold mb-1">{{ __('Total Likes') }}</p>
                 <p class="text-3xl font-bold text-gray-800">{{ $totalLikes }}</p>
             </div>
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
@@ -88,7 +88,7 @@
                     <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-2xl">💬</div>
                     <span class="text-red-500 text-sm font-semibold">-2%</span>
                 </div>
-                <p class="text-xs text-gray-400 uppercase font-semibold mb-1">Total Commentaires</p>
+                <p class="text-xs text-gray-400 uppercase font-semibold mb-1">{{ __('Total Commentaires') }}</p>
                 <p class="text-3xl font-bold text-gray-800">{{ $totalComments }}</p>
             </div>
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 border-l-4 border-l-blue-500">
@@ -96,7 +96,7 @@
                     <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-2xl">👁️</div>
                     <span class="text-green-500 text-sm font-semibold">+18%</span>
                 </div>
-                <p class="text-xs text-gray-400 uppercase font-semibold mb-1">Vues</p>
+                <p class="text-xs text-gray-400 uppercase font-semibold mb-1">{{ __('Vues') }}</p>
                 <p class="text-3xl font-bold text-gray-800">—</p>
             </div>
         </div>
@@ -107,18 +107,18 @@
             <div class="flex-1">
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
                     <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-xl font-bold text-gray-800">Articles Récents</h2>
-                        <a href="{{ route('posts.mes') }}" class="text-blue-500 text-sm hover:underline">Voir tout</a>
+                        <h2 class="text-xl font-bold text-gray-800">{{ __('Articles Récents') }}</h2>
+                        <a href="{{ route('posts.mes') }}" class="text-blue-500 text-sm hover:underline">{{ __('Voir tout') }}</a>
                     </div>
 
                     <table class="w-full">
                         <thead>
                             <tr class="text-xs text-gray-400 uppercase border-b border-gray-100">
-                                <th class="text-left pb-3">Titre</th>
-                                <th class="text-left pb-3">Statut</th>
-                                <th class="text-left pb-3">Catégorie</th>
-                                <th class="text-left pb-3">Date</th>
-                                <th class="text-left pb-3">Actions</th>
+                                <th class="text-left pb-3">{{ __('Titre') }}</th>
+                                <th class="text-left pb-3">{{ __('Statut') }}</th>
+                                <th class="text-left pb-3">{{ __('Catégorie') }}</th>
+                                <th class="text-left pb-3">{{ __('Date') }}</th>
+                                <th class="text-left pb-3">{{ __('Actions') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -127,11 +127,11 @@
                                 <td class="py-4 text-gray-800 font-medium">{{ Str::limit($post->titre, 30) }}</td>
                                 <td class="py-4">
                                     @if($post->statut === 'publie')
-                                        <span class="bg-green-100 text-green-600 text-xs px-3 py-1 rounded-full font-semibold uppercase">Publié</span>
+                                        <span class="bg-green-100 text-green-600 text-xs px-3 py-1 rounded-full font-semibold uppercase">{{ __('Publié') }}</span>
                                     @elseif($post->statut === 'brouillon')
-                                        <span class="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full font-semibold uppercase">Brouillon</span>
+                                        <span class="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full font-semibold uppercase">{{ __('Brouillon') }}</span>
                                     @else
-                                        <span class="bg-yellow-100 text-yellow-600 text-xs px-3 py-1 rounded-full font-semibold uppercase">En attente</span>
+                                        <span class="bg-yellow-100 text-yellow-600 text-xs px-3 py-1 rounded-full font-semibold uppercase">{{ __('En attente') }}</span>
                                     @endif
                                 </td>
                                 <td class="py-4 text-gray-500 text-sm">{{ $post->category->nom ?? '—' }}</td>
@@ -149,7 +149,7 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="5" class="text-center text-gray-400 py-8">Aucun article pour le moment.</td>
+                                <td colspan="5" class="text-center text-gray-400 py-8">{{ __('Aucun article pour le moment.') }}</td>
                             </tr>
                             @endforelse
                         </tbody>
@@ -162,7 +162,7 @@
 
                 {{-- Brouillon rapide --}}
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
-                    <h3 class="font-bold text-gray-800 mb-4">Brouillon rapide</h3>
+                    <h3 class="font-bold text-gray-800 mb-4">{{ __('Brouillon rapide') }}</h3>
                     <form method="POST" action="{{ route('posts.store') }}">
                         @csrf
                         <input type="hidden" name="statut" value="brouillon">
@@ -173,14 +173,14 @@
                             class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 mb-3 resize-none"></textarea>
                         <button type="submit"
                             class="w-full bg-blue-600 text-white py-2 rounded-lg text-sm font-semibold hover:bg-blue-700">
-                            Enregistrer le brouillon
+                            {{ __('Enregistrer le brouillon') }}
                         </button>
                     </form>
                 </div>
 
                 {{-- Catégories tendances --}}
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                    <h3 class="font-bold text-gray-800 mb-4">Catégories Tendances</h3>
+                    <h3 class="font-bold text-gray-800 mb-4">{{ __('Catégories Tendances') }}</h3>
                     @foreach(App\Models\Category::withCount(['posts' => function($q){ $q->where('statut','publie'); }])->orderByDesc('posts_count')->take(3)->get() as $index => $cat)
                     <div class="flex justify-between items-center py-2">
                         <div class="flex items-center gap-2">
