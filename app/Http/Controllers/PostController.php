@@ -115,11 +115,11 @@ class PostController extends Controller
 
     if (auth()->user()->isAdmin()) {
         return redirect()->route('dashboard')
-            ->with('success', 'Article publié avec succès !');
+            ->with('success', __('Article publié avec succès !'));
     }
 
     return redirect()->route('dashboard')
-        ->with('success', 'Article soumis pour modération !');
+        ->with('success', __('Article soumis pour modération !'));
 }
 
     public function edit($id)
@@ -160,7 +160,7 @@ class PostController extends Controller
     }
 
     return redirect()->route('dashboard')
-        ->with('success', 'Article mis à jour !');
+        ->with('success', __('Article mis à jour !'));
 }
 
     public function destroy($id)
@@ -172,7 +172,7 @@ class PostController extends Controller
         $post->delete();
 
         return redirect()->route('dashboard')
-            ->with('success', 'Article supprimé !');
+            ->with('success', __('Article supprimé !'));
     }
 
     public function like($id)

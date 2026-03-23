@@ -8,7 +8,7 @@
     <h1 class="text-3xl font-bold text-gray-800 mb-2">
         <span class="text-blue-500">#</span>{{ $tag->nom }}
     </h1>
-    <p class="text-gray-500">{{ $posts->total() }} article(s) avec ce tag</p>
+    <p class="text-gray-500">{{ $posts->total() }} {{ __('article(s) avec ce tag') }}</p>
 </div>
 
 <div class="grid grid-cols-2 gap-6">
@@ -18,7 +18,7 @@
             <img src="{{ Storage::url($post->image) }}" class="w-full h-40 object-cover rounded-lg mb-4">
         @else
             <div class="w-full h-40 bg-gray-100 rounded-lg mb-4 flex items-center justify-center text-gray-400">
-                Pas d'image
+                {{ __("Pas d'image") }}
             </div>
         @endif
         <span class="bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded-full uppercase font-semibold">
@@ -39,7 +39,7 @@
         </div>
     </div>
     @empty
-    <p class="text-gray-400 col-span-2 text-center py-12">Aucun article avec ce tag.</p>
+    <p class="text-gray-400 col-span-2 text-center py-12">{{ __('Aucun article avec ce tag.') }}</p>
     @endforelse
 </div>
 

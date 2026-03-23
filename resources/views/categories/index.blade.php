@@ -3,8 +3,8 @@
 @section('contenu')
 
 <div class="mb-8">
-    <h1 class="text-3xl font-bold text-gray-800 mb-2">Toutes les Catégories</h1>
-    <p class="text-gray-500">Explorez les articles par thématique</p>
+    <h1 class="text-3xl font-bold text-gray-800 mb-2">{{ __('Toutes les Catégories') }}</h1>
+    <p class="text-gray-500">{{ __('Explorez les articles par thématique') }}</p>
 </div>
 
 <div class="grid grid-cols-3 gap-6">
@@ -17,11 +17,11 @@
         <h2 class="text-xl font-bold text-gray-800 mb-2">{{ $cat->nom }}</h2>
         <p class="text-gray-500 text-sm mb-4">{{ $cat->description ?? 'Aucune description.' }}</p>
         <span class="bg-blue-100 text-blue-600 text-xs px-3 py-1 rounded-full font-semibold">
-            {{ $cat->posts_count }} article(s)
+            {{ $cat->posts_count }} {{ __('article(s)') }}
         </span>
     </a>
     @empty
-    <p class="text-gray-400 col-span-3 text-center py-12">Aucune catégorie disponible.</p>
+    <p class="text-gray-400 col-span-3 text-center py-12">{{ __('Aucune catégorie disponible.') }}</p>
     @endforelse
 </div>
 

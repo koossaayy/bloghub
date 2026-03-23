@@ -34,7 +34,7 @@ class ProfileController extends Controller
 
         auth()->user()->update($data);
 
-        return back()->with('success', 'Profil mis à jour !');
+        return back()->with('success', __('Profil mis à jour !'));
     }
 
     public function updatePassword(Request $request)
@@ -45,14 +45,14 @@ class ProfileController extends Controller
         ]);
 
         if (!Hash::check($request->current_password, auth()->user()->password)) {
-            return back()->withErrors(['current_password' => 'Mot de passe incorrect']);
+            return back()->withErrors(['current_password' => __('Mot de passe incorrect')]);
         }
 
         auth()->user()->update([
             'password' => Hash::make($request->password)
         ]);
 
-        return back()->with('success', 'Mot de passe mis à jour !');
+        return back()->with('success', __('Mot de passe mis à jour !'));
     }
 
     public function destroy(Request $request)
@@ -61,6 +61,6 @@ class ProfileController extends Controller
         auth()->logout();
         $user->delete();
 
-        return redirect('/')->with('success', 'Compte supprimé !');
+        return redirect('/')->with('success', __('Compte supprimé !'));
     }
 }
