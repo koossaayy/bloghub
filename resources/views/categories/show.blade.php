@@ -9,7 +9,7 @@
         </div>
         <div>
             <h1 class="text-3xl font-bold text-gray-800">{{ $category->nom }}</h1>
-            <p class="text-gray-500">{{ $posts->total() }} article(s) dans cette catégorie</p>
+            <p class="text-gray-500">{{ $posts->total() }} {{ __('article(s) dans cette catégorie') }}</p>
         </div>
     </div>
 </div>
@@ -21,7 +21,7 @@
             <img src="{{ Str::startsWith($post->image, 'http') ? $post->image : Storage::url($post->image) }}" class="w-32 h-24 object-cover rounded-lg">
         @else
             <div class="w-full h-40 bg-gray-100 rounded-lg mb-4 flex items-center justify-center text-gray-400">
-                Pas d'image
+                {{ __("Pas d'image") }}
             </div>
         @endif
         <h2 class="text-xl font-bold text-gray-800 mb-2">
@@ -39,7 +39,7 @@
         </div>
     </div>
     @empty
-    <p class="text-gray-400 col-span-2 text-center py-12">Aucun article dans cette catégorie.</p>
+    <p class="text-gray-400 col-span-2 text-center py-12">{{ __('Aucun article dans cette catégorie.') }}</p>
     @endforelse
 </div>
 
